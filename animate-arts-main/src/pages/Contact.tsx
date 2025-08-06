@@ -13,11 +13,17 @@ const Contact = () => {
   });
 
   const canvasRef = useRef<HTMLDivElement>(null);
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
 
      // Scroll to top on page load
   window.scrollTo(0, 0);
+
+  // Ensure button is visible initially
+    if (submitBtnRef.current) {
+      gsap.set(submitBtnRef.current, { opacity: 1, y: 0 }); // Set initial state
+    }
 
     // Page entrance animations
     const tl = gsap.timeline({ delay: 0.3 });
@@ -254,8 +260,9 @@ const Contact = () => {
                 </div>
 
                 <button
+                  ref={submitBtnRef}
                   type="submit"
-                  className="submit-btn w-full bg-gradient-primary text-white py-4 rounded-lg font-medium hover-target transition-all duration-500 ease-out hover:shadow-primary hover:scale-[1.02] fade-in"
+                  className="submit-btn w-full bg-gradient-primary text-white py-4 rounded-lg font-medium hover-target transition-all duration-500 ease-out hover:shadow-primary z-20 hover:scale-[1.02] fade-in opacity-100"
                 >
                   <span className="flex items-center justify-center space-x-2">
                     <Send className="w-5 h-5" />
