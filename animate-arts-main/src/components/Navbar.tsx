@@ -112,22 +112,33 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden p-2 hover-target"
+            className="md:hidden p-2 z-50 hover-target"
             aria-label="Toggle menu"
           >
-            {isOpen ? (
-              <X className="w-6 h-6 text-foreground" />
-            ) : (
+            {!isOpen ? (
               <Menu className="w-6 h-6 text-foreground" />
+            ) : (
+              ''
             )}
           </button>
         </div>
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-card backdrop-blur-glass z-30 transform translate-x-full ${
+      <div className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-card backdrop-blur-glass z-40 transform translate-x-full ${
         isOpen ? 'shadow-elegant' : ''
       }`}>
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-10 z-50 hover-target"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? (
+              <X className="w-6 h-6 z-50 text-foreground" />
+            ) : (
+              ''
+            )}
+          </button>
         <div className="p-8 pt-20">
           <div className="space-y-6">
             {navItems.map((item, index) => (
