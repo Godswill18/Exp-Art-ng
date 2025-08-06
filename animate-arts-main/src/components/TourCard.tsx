@@ -172,7 +172,7 @@ const TourCard = ({ tour }: TourCardProps) => {
                 }`}
               >
                 <div className="font-semibold">{ticket.name}</div>
-                <div className="text-xs opacity-90">${ticket.price}</div>
+                <div className="text-xs opacity-90">₦{ticket.price}</div>
               </button>
             ))}
           </div>
@@ -211,7 +211,7 @@ const TourCard = ({ tour }: TourCardProps) => {
           <div className="flex justify-between items-center font-inter">
             <span className="text-gray-300">Total Cost:</span>
             <span className="text-xl font-bold text-indigo-400">
-              ${totalCost}
+              ₦{totalCost}
             </span>
           </div>
         </div>
