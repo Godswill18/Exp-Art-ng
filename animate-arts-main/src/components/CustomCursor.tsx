@@ -26,12 +26,12 @@ const CustomCursor = () => {
     // Smooth cursor animation
     const animateCursor = () => {
       // Cursor follows mouse with slight lag
-      cursorX += (mouseX - cursorX) * 0.15;
-      cursorY += (mouseY - cursorY) * 0.15;
+      cursorX += (mouseX - cursorX) * 1.00;
+      cursorY += (mouseY - cursorY) * 1.00;
 
       // Follower has more lag
-      followerX += (mouseX - followerX) * 0.08;
-      followerY += (mouseY - followerY) * 0.08;
+      followerX += (mouseX - followerX) * 0.18;
+      followerY += (mouseY - followerY) * 0.18;
 
       gsap.set(cursor, {
         x: cursorX,
