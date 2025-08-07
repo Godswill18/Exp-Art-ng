@@ -141,13 +141,13 @@ const Contact = () => {
           <div className="p-8 lg:p-16 h-full flex flex-col justify-center">
             <div className="mb-12">
               <h1 className="text-4xl lg:text-6xl font-poppins font-light mb-6 text-foreground">
-                Animated Technology
-                <span className="block text-primary font-medium">Visuals</span>
+                Experience Nigeria
+
+                <span className="block text-primary font-medium">Art Tour</span>
               </h1>
               
               <p className="text-lg text-gallery-muted font-poppins leading-relaxed">
-                Experience the intersection of art and technology through our 
-                interactive digital gallery platform.
+               Explore the intersection of art and culture in the heart of Lagos.
               </p>
             </div>
 
@@ -182,15 +182,14 @@ const Contact = () => {
           <div className="p-8 lg:p-16 h-full flex flex-col justify-center">
             <div className="max-w-md mx-auto w-full">
               <h2 className="text-3xl lg:text-5xl font-geist font-light mb-4 text-foreground fade-in">
-                Empower Your Future
+                Explore Nigeria
               </h2>
               <h3 className="text-2xl lg:text-3xl font-geist font-medium mb-8 text-primary fade-in">
-                With Technology
+                With a guided Tour
               </h3>
 
               <p className="text-gallery-muted font-poppins mb-12 leading-relaxed fade-in">
-                Ready to explore the future of digital art? Connect with our team 
-                to learn about exhibitions, artist collaborations, or technology partnerships.
+                Ready to explore the intersection of art and culture in the heart of Lagos. A journey through creativity, connection, and the vibrant spirit of the city.
               </p>
 
               {/* Contact Info */}
