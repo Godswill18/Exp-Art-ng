@@ -102,7 +102,7 @@ const Home = () => {
           </h1>
           
           <p className="hero-subtitle text-xl md:text-2xl text-gallery-muted mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-            Explore the intersection of art through our curated collection of contemporary digital artworks
+            Explore the intersection of art and culture in the heart of Lagos. A journey through creativity, connection, and the vibrant spirit of the city.
           </p>
           
           <div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center items-center">

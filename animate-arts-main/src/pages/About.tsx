@@ -399,10 +399,10 @@ const About = () => {
       <section className="content-section py-20 px-6 text-center">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-space-grotesk font-light mb-8 text-accent">
-            Experience Digital Art
+            Experience lagos
           </h2>
           <p className="text-xl text-gallery-muted mb-12 leading-relaxed">
-            Ready to explore the future of artistic expression? learn more about our collection and upcoming exhibitions.
+            Ready to explore the energy of Lagos and the vibrant world of Art X? Immerse yourself in the city’s art, culture, and creativity like never before.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
