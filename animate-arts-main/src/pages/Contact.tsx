@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Cpu, Cloud, Activity, Send, MapPin, Phone, Mail } from 'lucide-react';
+import { Earth, Club, Shell, Send, MapPin, Phone, Mail } from 'lucide-react';
 
 // Lazy load the animated canvas
 const AnimatedCanvas = lazy(() => import('../components/AnimatedCanvas'));
@@ -154,13 +154,13 @@ const Contact = () => {
             {/* Technology Icons */}
             <div className="flex space-x-8 mb-12">
               <div className="tech-icon hover-target cursor-pointer">
-                <Cpu className="w-12 h-12 text-primary transition-all duration-300" />
+                <Earth className="w-12 h-12 text-primary transition-all duration-300" />
               </div>
               <div className="tech-icon hover-target cursor-pointer">
-                <Cloud className="w-12 h-12 text-primary transition-all duration-300" />
+                <Club className="w-12 h-12 text-primary transition-all duration-300" />
               </div>
               <div className="tech-icon hover-target cursor-pointer">
-                <Activity className="w-12 h-12 text-primary transition-all duration-300" />
+                <Shell className="w-12 h-12 text-primary transition-all duration-300" />
               </div>
             </div>
 
