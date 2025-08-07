@@ -8,7 +8,7 @@ const WhatsAppButton = () => {
   const handleWhatsAppClick = () => {
     // Replace with your actual WhatsApp number (in international format without + or spaces)
     const phoneNumber = "+2347075720266"; // Update this with your actual number
-    const message = "Hello! I'm interested in your art gallery.";
+    const message = "Hello! I'm interested in your art Tour.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
