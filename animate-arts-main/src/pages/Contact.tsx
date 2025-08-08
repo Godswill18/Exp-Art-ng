@@ -204,7 +204,7 @@ const Contact = () => {
                 </div>
                 <div className="flex items-center space-x-3 fade-in">
                   <Mail className="w-5 h-5 text-primary" />
-                  <a href="mailto:info@ExperinceArt.com" className="text-gallery-muted">info@ExperinceArt.com</a>
+                  <a href="mailto:info@experiencenigeriaart.com" className="text-gallery-muted">info@experiencenigeriaart.com</a>
                 </div>
               </div>
 
