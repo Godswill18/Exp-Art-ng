@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ComingSoonCard from '@/components/ui/ComingSooonCard';
 
 // Lazy load components for performance
 const TourCard = lazy(() => import('../components/TourCard'));
@@ -156,8 +157,12 @@ const ArtTours = () => {
             </p>
           </div>
 
+
+
+
+
           {/* Tours Grid */}
-          <div className="tours-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {/* <div className="tours-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {tourData.map((tour) => (
               <div key={tour.id} className="tour-card">
                 <Suspense fallback={
@@ -171,10 +176,13 @@ const ArtTours = () => {
                 </Suspense>
               </div>
             ))}
-          </div>
+          </div> */}
+          <ComingSoonCard/>
+
+          {/* comming soon card  */}
 
           {/* Footer */}
-          <div className="tours-footer text-center bg-zinc-900/50 backdrop-blur-sm rounded-lg p-8 border border-zinc-800">
+          {/* <div className="tours-footer text-center bg-zinc-900/50 backdrop-blur-sm rounded-lg p-8 border border-zinc-800">
             <h3 className="text-2xl font-semibold mb-4 font-inter">
               Looking for Group Bookings?
             </h3>
@@ -184,7 +192,8 @@ const ArtTours = () => {
             <button className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/25 font-inter">
               Contact for Group Tours
             </button>
-          </div>
+          </div> */}
+         
         </div>
       </div>
     </div>
