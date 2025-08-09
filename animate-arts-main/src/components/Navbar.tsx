@@ -8,41 +8,80 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const menuRef = useRef(); // <-- HERE
+  const menuRef = useRef(); 
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+  const handleScroll = () => {
+    setIsScrolled(window.scrollY > 50);
+  };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const onLoad = () => {
+    gsap.killTweensOf('.mobile-menu');
+    // ScrollTrigger.refresh(); // if using ScrollTrigger
+  };
 
-  useEffect(() => {
-    // Animate navbar on load
-    gsap.from('.navbar', {
-      y: -100,
-      opacity: 0,
-      duration: 1,
-      ease: 'power4.out',
-    });
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('load', onLoad);
 
-    gsap.from('.nav-item', {
-      y: -20,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      delay: 0.3,
-      ease: 'power4.out',
-    });
+  // Animate navbar on load
+  gsap.from('.navbar', {
+    y: -100,
+    opacity: 0,
+    duration: 1,
+    ease: 'power4.out',
+  });
 
-     return () => {
-      gsap.killTweensOf('.navbar');
-      gsap.killTweensOf('.nav-item');
-    };
+  gsap.from('.nav-item', {
+    y: -20,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.1,
+    delay: 0.3,
+    ease: 'power4.out',
+  });
 
-  }, []);
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('load', onLoad);
+    gsap.killTweensOf('.navbar');
+    gsap.killTweensOf('.nav-item');
+  };
+}, []);
+
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setIsScrolled(window.scrollY > 50);
+  //   };
+
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
+
+  // useEffect(() => {
+  //   // Animate navbar on load
+  //   gsap.from('.navbar', {
+  //     y: -100,
+  //     opacity: 0,
+  //     duration: 1,
+  //     ease: 'power4.out',
+  //   });
+
+  //   gsap.from('.nav-item', {
+  //     y: -20,
+  //     opacity: 0,
+  //     duration: 0.8,
+  //     stagger: 0.1,
+  //     delay: 0.3,
+  //     ease: 'power4.out',
+  //   });
+
+  //    return () => {
+  //     gsap.killTweensOf('.navbar');
+  //     gsap.killTweensOf('.nav-item');
+  //   };
+
+  // }, []);
 
 
     const openMenu = () => {

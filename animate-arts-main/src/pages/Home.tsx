@@ -75,18 +75,11 @@ const Home = () => {
       });
     });
 
-  //   const timeout = setTimeout(() => {
-  //   ScrollTrigger.refresh();
-  // }, 500); // wait a bit for lazy components
-
-  // return () => clearTimeout(timeout);
-
-   const onLoad = () => {
-    // your GSAP init code here
+    const timeout = setTimeout(() => {
     ScrollTrigger.refresh();
-  };
-  window.addEventListener('load', onLoad);
-  return () => window.removeEventListener('load', onLoad);
+  }, 500); // wait a bit for lazy components
+
+  return () => clearTimeout(timeout);
 
   }, []);
 
