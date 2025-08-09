@@ -150,6 +150,13 @@
     z-index: 9998;
   }
 
+.animate-on-scroll {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: transform, opacity;
+}
+
+
   /* Font family utilities */
   .font-inter { font-family: 'Inter', sans-serif; }
   .font-poppins { font-family: 'Poppins', sans-serif; }

@@ -14,6 +14,7 @@ const Home = () => {
 
      // Scroll to top on page load
   window.scrollTo(0, 0);
+  
 
     // Hero text animations
     const tl = gsap.timeline({ delay: 0.5 });
@@ -46,8 +47,8 @@ const Home = () => {
     // Scroll-triggered animations for sections
     gsap.utils.toArray('.section-content').forEach((section: any) => {
       gsap.from(section.querySelectorAll('.animate-on-scroll'), {
-        y: 80,
         opacity: 0,
+        y: 80,
         duration: 1,
         stagger: 0.2,
         ease: 'power4.out',
@@ -74,6 +75,19 @@ const Home = () => {
       });
     });
 
+  //   const timeout = setTimeout(() => {
+  //   ScrollTrigger.refresh();
+  // }, 500); // wait a bit for lazy components
+
+  // return () => clearTimeout(timeout);
+
+   const onLoad = () => {
+    // your GSAP init code here
+    ScrollTrigger.refresh();
+  };
+  window.addEventListener('load', onLoad);
+  return () => window.removeEventListener('load', onLoad);
+
   }, []);
 
   const gotoAbout = () => {
@@ -97,9 +111,9 @@ const Home = () => {
         </Suspense>
         
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className="hero-title text-6xl md:text-8xl font-inter font-light mb-6">
+          <h3 className="hero-title text-5xl md:text-8xl font-inter font-light mb-6">
             <span className="gradient-hero-text">EXPERIENCE NIGERIA ART TOUR</span>
-          </h1>
+          </h3>
           
           <p className="hero-subtitle text-xl md:text-2xl text-gallery-muted mb-12 max-w-2xl mx-auto font-light leading-relaxed">
             Explore the intersection of art and culture in the heart of Lagos. A journey through creativity, connection, and the vibrant spirit of the city.

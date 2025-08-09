@@ -102,6 +102,7 @@ const Contact = () => {
       });
     });
 
+
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

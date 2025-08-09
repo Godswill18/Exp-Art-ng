@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { gsap } from 'gsap';
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const menuRef = useRef(); // <-- HERE
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,34 +36,59 @@ const Navbar = () => {
       delay: 0.3,
       ease: 'power4.out',
     });
+
+     return () => {
+      gsap.killTweensOf('.navbar');
+      gsap.killTweensOf('.nav-item');
+    };
+
   }, []);
 
+
+    const openMenu = () => {
+    setIsOpen(true);
+    gsap.to(menuRef.current, { x: 0, duration: 0.5, ease: 'power4.out' });
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+    gsap.to(menuRef.current, { x: '100%', duration: 0.5, ease: 'power4.out' });
+  };
+
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
-    
-    if (!isOpen) {
-      gsap.to('.mobile-menu', {
-        x: 0,
-        duration: 0.5,
-        ease: 'power4.out',
-      });
-      
-      gsap.from('.mobile-nav-item', {
-        x: 50,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        delay: 0.2,
-        ease: 'power4.out',
-      });
+    if (isOpen) {
+      closeMenu();
     } else {
-      gsap.to('.mobile-menu', {
-        x: '100%',
-        duration: 0.5,
-        ease: 'power4.out',
-      });
+      openMenu();
     }
   };
+
+  // const toggleMenu = () => {
+  //   setIsOpen(!isOpen);
+    
+  //   if (!isOpen) {
+  //     gsap.to('.mobile-menu', {
+  //       x: 0,
+  //       duration: 0.5,
+  //       ease: 'power4.out',
+  //     });
+      
+  //     gsap.from('.mobile-nav-item', {
+  //       x: 50,
+  //       opacity: 0,
+  //       duration: 0.5,
+  //       stagger: 0.1,
+  //       delay: 0.2,
+  //       ease: 'power4.out',
+  //     });
+  //   } else {
+  //     gsap.to('.mobile-menu', {
+  //       x: '100%',
+  //       duration: 0.5,
+  //       ease: 'power4.out',
+  //     });
+  //   }
+  // };
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -125,9 +151,12 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`mobile-menu fixed top-0 right-0 h-full w-80 bg-card backdrop-blur-glass z-40 transform translate-x-full ${
-        isOpen ? 'shadow-elegant' : ''
-      }`}>
+        <div
+        ref={menuRef} // <-- Attach ref
+        className="mobile-menu fixed top-0 right-0 h-full w-80 bg-card backdrop-blur-glass z-40"
+        style={{ transform: 'translateX(100%)' }} // start hidden
+      >
+
           <button
             onClick={toggleMenu}
             className="md:hidden p-10 z-50 hover-target"

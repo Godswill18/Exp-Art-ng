@@ -124,9 +124,25 @@ const ArtTours = () => {
       }
     );
 
+  //   const timeout = setTimeout(() => {
+  //   ScrollTrigger.refresh();
+  // }, 500); // wait a bit for lazy components
+
+   const onLoad = () => {
+    // your GSAP init code here
+    ScrollTrigger.refresh();
+  };
+    window.addEventListener('load', onLoad);
+
+
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      window.removeEventListener('load', onLoad);
+      // clearTimeout(timeout)
     };
+
+
+
   }, []);
 
   return (

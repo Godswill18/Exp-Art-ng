@@ -112,6 +112,19 @@ const About = () => {
       }
     });
 
+  //   const timeout = setTimeout(() => {
+  //   ScrollTrigger.refresh();
+  // }, 500); // wait a bit for lazy components
+
+  // return () => clearTimeout(timeout);
+
+   const onLoad = () => {
+    // your GSAP init code here
+    ScrollTrigger.refresh();
+  };
+  window.addEventListener('load', onLoad);
+  return () => window.removeEventListener('load', onLoad);
+
   }, []);
 
   const artworks = [
