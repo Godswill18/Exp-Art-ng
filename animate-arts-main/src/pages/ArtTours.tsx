@@ -85,44 +85,44 @@ const ArtTours = () => {
   window.scrollTo(0, 0);
 
     // Header animation
-    gsap.fromTo('.art-tours-header', 
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.9, ease: 'power4.out' }
-    );
+    // gsap.fromTo('.art-tours-header', 
+    //   { opacity: 0, y: 30 },
+    //   { opacity: 1, y: 0, duration: 0.9, ease: 'power4.out' }
+    // );
 
     // Tour cards scroll animation
-    gsap.fromTo('.tour-card', 
-      { opacity: 0, y: 48 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 0.6,
-        stagger: 0.15,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: '.tours-grid',
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
+    // gsap.fromTo('.tour-card', 
+    //   { opacity: 0, y: 48 },
+    //   { 
+    //     opacity: 1, 
+    //     y: 0, 
+    //     duration: 0.6,
+    //     stagger: 0.15,
+    //     ease: 'power4.out',
+    //     scrollTrigger: {
+    //       trigger: '.tours-grid',
+    //       start: 'top 80%',
+    //       end: 'bottom 20%',
+    //       toggleActions: 'play none none reverse'
+    //     }
+    //   }
+    // );
 
     // Footer animation
-    gsap.fromTo('.tours-footer',
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: '.tours-footer',
-          start: 'top 90%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
+    // gsap.fromTo('.tours-footer',
+    //   { opacity: 0, y: 20 },
+    //   {
+    //     opacity: 1,
+    //     y: 0,
+    //     duration: 0.6,
+    //     ease: 'power4.out',
+    //     scrollTrigger: {
+    //       trigger: '.tours-footer',
+    //       start: 'top 90%',
+    //       toggleActions: 'play none none reverse'
+    //     }
+    //   }
+    // );
 
     const timeout = setTimeout(() => {
     ScrollTrigger.refresh();

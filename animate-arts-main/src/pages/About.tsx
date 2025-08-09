@@ -32,43 +32,43 @@ const About = () => {
   window.scrollTo(0, 0);
 
     // Page entrance animations
-    const tl = gsap.timeline({ delay: 0.3 });
+    // const tl = gsap.timeline({ delay: 0.3 });
     
-    tl.from('.page-title', {
-      y: 80,
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power4.out',
-    })
-    .from('.page-subtitle', {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      ease: 'power4.out',
-    }, '-=0.6')
-    .from('.content-section', {
-      y: 60,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.2,
-      ease: 'power4.out',
-    }, '-=0.4');
+    // tl.from('.page-title', {
+    //   y: 80,
+    //   opacity: 0,
+    //   duration: 1.2,
+    //   ease: 'power4.out',
+    // })
+    // .from('.page-subtitle', {
+    //   y: 50,
+    //   opacity: 0,
+    //   duration: 1,
+    //   ease: 'power4.out',
+    // }, '-=0.6')
+    // .from('.content-section', {
+    //   y: 60,
+    //   opacity: 0,
+    //   duration: 1,
+    //   stagger: 0.2,
+    //   ease: 'power4.out',
+    // }, '-=0.4');
 
     // Gallery grid animations
-    gsap.from('.gallery-item', {
-      y: 100,
-      opacity: 0,
-      scale: 0.8,
-      duration: 1,
-      stagger: 0.15,
-      ease: 'power4.out',
-      scrollTrigger: {
-        trigger: '.gallery-grid',
-        start: 'top 80%',
-        end: 'bottom 20%',
-        toggleActions: 'play none none reverse',
-      },
-    });
+    // gsap.from('.gallery-item', {
+    //   y: 100,
+    //   opacity: 0,
+    //   scale: 0.8,
+    //   duration: 1,
+    //   stagger: 0.15,
+    //   ease: 'power4.out',
+    //   scrollTrigger: {
+    //     trigger: '.gallery-grid',
+    //     start: 'top 80%',
+    //     end: 'bottom 20%',
+    //     toggleActions: 'play none none reverse',
+    //   },
+    // });
 
     // 3D tilt effect setup
     tiltRefs.current.forEach((ref, index) => {

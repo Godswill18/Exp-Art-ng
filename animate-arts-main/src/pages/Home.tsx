@@ -7,7 +7,7 @@ import { ChevronDown } from 'lucide-react';
 const VantaWaves = lazy(() => import('../components/VantaWaves'));
 const ThreeScene = lazy(() => import('../components/ThreeScene'));
 
-gsap.registerPlugin(ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   useEffect(() => {
@@ -17,63 +17,63 @@ const Home = () => {
   
 
     // Hero text animations
-    const tl = gsap.timeline({ delay: 0.5 });
+    // const tl = gsap.timeline({ delay: 0.5 });
     
-    tl.from('.hero-title', {
-      y: 100,
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power4.out',
-    })
-    .from('.hero-subtitle', {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      ease: 'power4.out',
-    }, '-=0.6')
-    .from('.hero-buttons', {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power4.out',
-    }, '-=0.4')
-    .from('.scroll-indicator', {
-      y: 20,
-      opacity: 0,
-      duration: 0.6,
-      ease: 'power4.out',
-    }, '-=0.2');
+    // tl.from('.hero-title', {
+    //   y: 100,
+    //   opacity: 0,
+    //   duration: 1.2,
+    //   ease: 'power4.out',
+    // })
+    // .from('.hero-subtitle', {
+    //   y: 50,
+    //   opacity: 0,
+    //   duration: 1,
+    //   ease: 'power4.out',
+    // }, '-=0.6')
+    // .from('.hero-buttons', {
+    //   y: 30,
+    //   opacity: 0,
+    //   duration: 0.8,
+    //   ease: 'power4.out',
+    // }, '-=0.4')
+    // .from('.scroll-indicator', {
+    //   y: 20,
+    //   opacity: 0,
+    //   duration: 0.6,
+    //   ease: 'power4.out',
+    // }, '-=0.2');
 
     // Scroll-triggered animations for sections
-    gsap.utils.toArray('.section-content').forEach((section: any) => {
-      gsap.from(section.querySelectorAll('.animate-on-scroll'), {
-        opacity: 0,
-        y: 80,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-    });
+    // gsap.utils.toArray('.section-content').forEach((section: any) => {
+    //   gsap.from(section.querySelectorAll('.animate-on-scroll'), {
+    //     opacity: 0,
+    //     y: 80,
+    //     duration: 1,
+    //     stagger: 0.2,
+    //     ease: 'power4.out',
+    //     scrollTrigger: {
+    //       trigger: section,
+    //       start: 'top 80%',
+    //       end: 'bottom 20%',
+    //       toggleActions: 'play none none reverse',
+    //     },
+    //   });
+    // });
 
     // Parallax effect for Three.js sections
-    gsap.utils.toArray('.parallax-section').forEach((section: any) => {
-      gsap.to(section, {
-        yPercent: -50,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-    });
+    // gsap.utils.toArray('.parallax-section').forEach((section: any) => {
+    //   gsap.to(section, {
+    //     yPercent: -50,
+    //     ease: 'none',
+    //     scrollTrigger: {
+    //       trigger: section,
+    //       start: 'top bottom',
+    //       end: 'bottom top',
+    //       scrub: true,
+    //     },
+    //   });
+    // });
 
     const timeout = setTimeout(() => {
     ScrollTrigger.refresh();

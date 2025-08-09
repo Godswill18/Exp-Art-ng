@@ -26,33 +26,33 @@ const Contact = () => {
     }
 
     // Page entrance animations
-    const tl = gsap.timeline({ delay: 0.3 });
+    // const tl = gsap.timeline({ delay: 0.3 });
     
-    tl.from('.slide-in-left', {
-      x: -100,
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power4.out',
-    })
-    .from('.slide-in-right', {
-      x: 100,
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power4.out',
-    }, '-=1')
-    .from('.fade-in', {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.1,
-      ease: 'power4.out',
-    }, '-=0.6')
-    .from('.blur-in', {
-      filter: 'blur(10px)',
-      opacity: 0,
-      duration: 1.5,
-      ease: 'power4.out',
-    }, '-=0.8');
+    // tl.from('.slide-in-left', {
+    //   x: -100,
+    //   opacity: 0,
+    //   duration: 1.2,
+    //   ease: 'power4.out',
+    // })
+    // .from('.slide-in-right', {
+    //   x: 100,
+    //   opacity: 0,
+    //   duration: 1.2,
+    //   ease: 'power4.out',
+    // }, '-=1')
+    // .from('.fade-in', {
+    //   y: 50,
+    //   opacity: 0,
+    //   duration: 1,
+    //   stagger: 0.1,
+    //   ease: 'power4.out',
+    // }, '-=0.6')
+    // .from('.blur-in', {
+    //   filter: 'blur(10px)',
+    //   opacity: 0,
+    //   duration: 1.5,
+    //   ease: 'power4.out',
+    // }, '-=0.8');
 
     // Icon hover animations
     const icons = document.querySelectorAll('.tech-icon');
@@ -81,26 +81,26 @@ const Contact = () => {
     });
 
     // Form input focus animations
-    const inputs = document.querySelectorAll('.form-input');
-    inputs.forEach(input => {
-      input.addEventListener('focus', () => {
-        gsap.to(input, {
-          borderColor: '#6366f1',
-          boxShadow: '0 0 0 2px rgba(99, 102, 241, 0.2)',
-          duration: 0.3,
-          ease: 'power2.out',
-        });
-      });
+    // const inputs = document.querySelectorAll('.form-input');
+    // inputs.forEach(input => {
+    //   input.addEventListener('focus', () => {
+    //     gsap.to(input, {
+    //       borderColor: '#6366f1',
+    //       boxShadow: '0 0 0 2px rgba(99, 102, 241, 0.2)',
+    //       duration: 0.3,
+    //       ease: 'power2.out',
+    //     });
+    //   });
 
-      input.addEventListener('blur', () => {
-        gsap.to(input, {
-          borderColor: 'hsl(var(--border))',
-          boxShadow: 'none',
-          duration: 0.3,
-          ease: 'power2.out',
-        });
-      });
-    });
+    //   input.addEventListener('blur', () => {
+    //     gsap.to(input, {
+    //       borderColor: 'hsl(var(--border))',
+    //       boxShadow: 'none',
+    //       duration: 0.3,
+    //       ease: 'power2.out',
+    //     });
+    //   });
+    // });
 
 
   }, []);
