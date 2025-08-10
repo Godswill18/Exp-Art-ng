@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import * as motion from 'motion/react-client';
 import Kayode from '../assets/img/Kayode.webp';
 import Twins from '../assets/img/ohiwerei twins.webp';
 import ex1 from '../assets/img/experience 1.webp';
@@ -298,21 +299,35 @@ const About = () => {
       {/* Hero Section */}
       <section className="relative py-20 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="page-title text-6xl md:text-8xl font-space-grotesk font-light mb-8">
+          <motion.h1 className="page-title text-6xl md:text-8xl font-space-grotesk font-light mb-8" 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 0.3, duration: 1.2}}
+          variants={{ 
+          hidden: {opacity: 0, y: 40}, 
+          visible: {opacity: 1, y: 5}}}>
             <span className="gradient-text">About </span>
             {/* <span className="gradient-text">About Our Gallery</span> */}
-          </h1>
+          </motion.h1>
           
-          <p className="page-subtitle text-xl md:text-2xl text-gallery-muted max-w-4xl mx-auto font-light leading-relaxed">
+          <motion.p className="page-subtitle text-xl md:text-2xl text-gallery-muted max-w-4xl mx-auto font-light leading-relaxed">
             The International VIP Collector Tour is curated by four passionate art world stakeholders with deep roots in Nigeria’s cultural scene and far-reaching international networks.
             United by a shared commitment to access, excellence, and thoughtful engagement, we offer an insider’s introduction to the people, places, and perspectives shaping contemporary African art.
             This experience is tailored for collectors who value intimacy, depth, and authenticity.
-          </p>
+          </motion.p>
         </div>
       </section>
 
       {/* Get to know us Section */}
-      <section className="content-section py-16 px-6">
+      <motion.section className="content-section py-16 px-6"
+       initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 0.2, duration: 1.0}}
+          variants={{ 
+          hidden: {opacity: 0, y: 60}, 
+          visible: {opacity: 1, y: 5}}}>
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-space-grotesk font-light mb-8 text-primary text-center">
             Get to Know Us
@@ -333,7 +348,7 @@ const About = () => {
             conventional notions of what art can be in the 21st century.
           </p> */}
         </div>
-      </section>
+      </motion.section>
       
       <section className="content-section py-16 px-6">
         <div className="max-w-4xl mx-auto">

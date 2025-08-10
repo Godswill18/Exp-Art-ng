@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronDown } from 'lucide-react';
+import * as motion from 'motion/react-client';
 
 // Lazy load heavy components
 const VantaWaves = lazy(() => import('../components/VantaWaves'));
@@ -104,15 +105,36 @@ const Home = () => {
         </Suspense>
         
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h3 className="hero-title text-5xl md:text-8xl font-inter font-light mb-6">
+          <motion.h3 className="hero-title text-5xl md:text-8xl font-inter font-light mb-6"
+             initial="hidden"
+              whileInView="visible"
+              viewport={{once: false, amount: 0.5}}
+              transition={{delay: 0.2, duration: 0.5}}
+              variants={{ 
+              hidden: {opacity: 0, y: 100}, 
+              visible: {opacity: 1, y: 0}}}>
             <span className="gradient-hero-text">EXPERIENCE NIGERIA ART TOUR</span>
-          </h3>
+          </motion.h3>
           
-          <p className="hero-subtitle text-xl md:text-2xl text-gallery-muted mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+          <motion.p className="hero-subtitle text-xl md:text-2xl text-gallery-muted mb-12 max-w-2xl mx-auto font-light leading-relaxed"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{once: false, amount: 0.5}}
+              transition={{delay: 0.28, duration: 0.40}}
+              variants={{ 
+              hidden: {opacity: 0, y: 50}, 
+              visible: {opacity: 1, y: 0}}}>
             Explore the intersection of art and culture in the heart of Lagos. A journey through creativity, connection, and the vibrant spirit of the city.
-          </p>
+          </motion.p>
           
-          <div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <motion.div className="hero-buttons flex flex-col sm:flex-row gap-6 justify-center items-center"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{once: false, amount: 0.5}}
+              transition={{delay: 0.70, duration: 0.90}}
+              variants={{ 
+              hidden: {opacity: 0, y: 50}, 
+              visible: {opacity: 1, y: 0}}}>
             <button
               onClick={gotoAbout}
               className="group px-8 py-4 border-2 border-foreground text-foreground hover-target transition-all duration-500 ease-out hover:bg-foreground hover:text-background hover:shadow-elegant"
@@ -126,7 +148,7 @@ const Home = () => {
             >
               <span className="font-inter font-medium">Get In Touch</span>
             </button>
-          </div>
+          </motion.div>
         </div>
         
         <div className="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2">
@@ -142,13 +164,29 @@ const Home = () => {
   </div>
 
   <div className="section-content relative z-10 max-w-6xl mx-auto px-6 text-center">
-    <h2 className="animate-on-scroll text-5xl md:text-7xl font-space-grotesk font-light mb-16">
+    <motion.h2 className="animate-on-scroll text-5xl md:text-7xl font-space-grotesk font-light mb-16"
+        initial="hidden"
+              whileInView="visible"
+              viewport={{once: false, amount: 0.5}}
+              transition={{delay: 0.10, duration: 0.20}}
+              variants={{ 
+              hidden: {opacity: 0, y: 0}, 
+              visible: {opacity: 1, y: -40}}}>
+
       <span className="gradient-text">Flow of Events</span>
-    </h2>
+    </motion.h2>
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
       {/* Day 1 */}
-      <div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg">
+      <motion.div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 0.30, duration: 0.40}}
+          variants={{ 
+          hidden: {opacity: 0, y: 40}, 
+          visible: {opacity: 1, y: 5}}}>
+
         <h3 className="text-2xl font-semibold text-primary mb-4">Day 1 – Wednesday, Nov 5</h3>
         <ul className="list-disc list-inside text-lg text-gallery-muted space-y-2">
           <li>Airport concierge / fast-track immigration</li>
@@ -156,51 +194,92 @@ const Home = () => {
           <li>Transfer to hotel / accommodation</li>
           <li>Welcome Dinner</li>
         </ul>
-      </div>
+      </motion.div>
 
       {/* Day 2 */}
-      <div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg">
+      <motion.div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg"
+       initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 0.50, duration: 0.60}}
+          variants={{ 
+          hidden: {opacity: 0, y: 40}, 
+          visible: {opacity: 1, y: 5}}}>
+
         <h3 className="text-2xl font-semibold text-primary mb-4">Day 2 – Thursday Nov 6</h3>
         <ul className="list-disc list-inside text-lg text-gallery-muted space-y-2">
           <li>    Collectors preview of art X</li>
           <li>Victor Ehikamenor studio visit</li>
           <li>VIP ART X opening</li>
         </ul>
-      </div>
+      </motion.div>
 
       {/* Day 3 */}
-      <div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg">
+      <motion.div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg"
+       initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 0.70, duration: 0.80}}
+          variants={{ 
+          hidden: {opacity: 0, y: 40}, 
+          visible: {opacity: 1, y: 5}}}>
+
         <h3 className="text-2xl font-semibold text-primary mb-4">Day 3 – Friday Nov 7 (Art X Lagos VIP Experience)</h3>
         <ul className="list-disc list-inside text-lg text-gallery-muted space-y-2">
           <li>Studio Visits Nengi Omoku </li>
           <li>Dinner at Adebola Gallery, followed by Art X Live and/or a club night. </li>
         </ul>
-      </div>
+      </motion.div>
 
       {/* Day 4 */}
-      <div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg">
+      <motion.div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg"
+       initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 0.90, duration: 1.0}}
+          variants={{ 
+          hidden: {opacity: 0, y: 40}, 
+          visible: {opacity: 1, y: 5}}}>
+
         <h3 className="text-2xl font-semibold text-primary mb-4">Day 4 – Thursday Nov 8</h3>
         <ul className="list-disc list-inside text-lg text-gallery-muted space-y-2">
         <li>REST DAY (Explore Lagos)</li>
         </ul>
-      </div>
+      </motion.div>
 
       {/* Day 5 */}
-      <div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg md:col-span-2">
+      <motion.div className="animate-on-scroll bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg md:col-span-2"
+       initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 1.5, duration: 1.10}}
+          variants={{ 
+          hidden: {opacity: 0, y: 40}, 
+          visible: {opacity: 1, y: 5}}}>
+
+
         <h3 className="text-2xl font-semibold text-primary mb-4">Day 5 – Sunday Nov 9</h3>
         <ul className="list-disc list-inside text-lg text-gallery-muted space-y-2">
           <li>Day trip to Benin Edo state - 10am -  5pm</li>
         </ul>
-      </div>
+      </motion.div>
     </div>
-     <div className="animate-on-scroll mt-16">
+     <motion.div className="animate-on-scroll mt-16"
+      initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 1.20, duration: 1.30}}
+          variants={{ 
+          hidden: {opacity: 0, y: 40}, 
+          visible: {opacity: 1, y: 5}}}>
+
             <button 
               onClick={() => window.location.href = '/art-tours'}
               className="group px-12 py-6 bg-gradient-primary text-white hover-target transition-all duration-500 ease-out hover:shadow-primary hover:scale-105"
             >
               <span className="font-inter font-medium text-lg">Discover More</span>
             </button>
-          </div>
+          </motion.div>
   </div>
   
 </section>

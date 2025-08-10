@@ -19,15 +19,15 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const onLoad = () => {
-      gsap.killTweensOf('.mobile-menu'); // reset mobile menu animations if stuck
-      // ScrollTrigger.refresh(); // uncomment if you're using ScrollTrigger
-    };
+  // useEffect(() => {
+  //   // const onLoad = () => {
+  //   //   gsap.killTweensOf('.mobile-menu'); // reset mobile menu animations if stuck
+  //   //   // ScrollTrigger.refresh(); // uncomment if you're using ScrollTrigger
+  //   // };
 
-    window.addEventListener('load', onLoad);
-    return () => window.removeEventListener('load', onLoad);
-  }, []);
+  //   window.addEventListener('load', onLoad);
+  //   return () => window.removeEventListener('load', onLoad);
+  // }, []);
 
   useEffect(() => {
     // Animate navbar on load
