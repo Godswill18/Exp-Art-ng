@@ -1,281 +1,239 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
+import { Suspense, lazy, useState, ChangeEvent, FormEvent } from 'react';
+import { motion, Variants } from 'framer-motion';
 import { Earth, Club, Shell, Send, MapPin, Phone, Mail } from 'lucide-react';
 
-// Lazy load the animated canvas
 const AnimatedCanvas = lazy(() => import('../components/AnimatedCanvas'));
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const submitBtnRef = useRef<HTMLButtonElement>(null);
+// Animation Variants
+const slideInLeft: Variants = {
+  hidden: { x: -100, opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 1.2, ease: 'easeOut' } },
+};
 
-  useEffect(() => {
+const slideInRight: Variants = {
+  hidden: { x: 100, opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 1.2, ease: 'easeOut' } },
+};
 
-     // Scroll to top on page load
-  window.scrollTo(0, 0);
+const fadeIn: Variants = {
+  hidden: { y: 50, opacity: 0 },
+  visible: (i: number = 0) => ({
+    y: 0,
+    opacity: 1,
+    transition: { delay: i * 0.1, duration: 1, ease: 'easeOut' },
+  }),
+};
 
-  // Ensure button is visible initially
-    if (submitBtnRef.current) {
-      gsap.set(submitBtnRef.current, { opacity: 1, y: 0 }); // Set initial state
-    }
+const blurIn: Variants = {
+  hidden: { filter: 'blur(10px)', opacity: 0 },
+  visible: { filter: 'blur(0px)', opacity: 1, transition: { duration: 1.5, ease: 'easeOut' } },
+};
 
-    // Page entrance animations
-    // const tl = gsap.timeline({ delay: 0.3 });
-    
-    // tl.from('.slide-in-left', {
-    //   x: -100,
-    //   opacity: 0,
-    //   duration: 1.2,
-    //   ease: 'power4.out',
-    // })
-    // .from('.slide-in-right', {
-    //   x: 100,
-    //   opacity: 0,
-    //   duration: 1.2,
-    //   ease: 'power4.out',
-    // }, '-=1')
-    // .from('.fade-in', {
-    //   y: 50,
-    //   opacity: 0,
-    //   duration: 1,
-    //   stagger: 0.1,
-    //   ease: 'power4.out',
-    // }, '-=0.6')
-    // .from('.blur-in', {
-    //   filter: 'blur(10px)',
-    //   opacity: 0,
-    //   duration: 1.5,
-    //   ease: 'power4.out',
-    // }, '-=0.8');
+const iconHover: Variants = {
+  hover: {
+    scale: 1.2,
+    rotateY: 360,
+    color: '#ffffff',
+    textShadow: '0 0 20px #6366f1',
+    transition: { duration: 0.4 },
+  },
+};
 
-    // Icon hover animations
-    const icons = document.querySelectorAll('.tech-icon');
-    icons.forEach(icon => {
-      icon.addEventListener('mouseenter', () => {
-        gsap.to(icon, {
-          scale: 1.2,
-          rotationY: 360,
-          color: '#ffffff',
-          textShadow: '0 0 20px #6366f1',
-          duration: 0.4,
-          ease: 'power4.out',
-        });
-      });
+export default function Contact() {
+  const [formData, setFormData] = useState<FormData>({ name: '', email: '', message: '' });
 
-      icon.addEventListener('mouseleave', () => {
-        gsap.to(icon, {
-          scale: 1,
-          rotationY: 0,
-          color: '#6366f1',
-          textShadow: 'none',
-          duration: 0.4,
-          ease: 'power4.out',
-        });
-      });
-    });
-
-    // Form input focus animations
-    // const inputs = document.querySelectorAll('.form-input');
-    // inputs.forEach(input => {
-    //   input.addEventListener('focus', () => {
-    //     gsap.to(input, {
-    //       borderColor: '#6366f1',
-    //       boxShadow: '0 0 0 2px rgba(99, 102, 241, 0.2)',
-    //       duration: 0.3,
-    //       ease: 'power2.out',
-    //     });
-    //   });
-
-    //   input.addEventListener('blur', () => {
-    //     gsap.to(input, {
-    //       borderColor: 'hsl(var(--border))',
-    //       boxShadow: 'none',
-    //       duration: 0.3,
-    //       ease: 'power2.out',
-    //     });
-    //   });
-    // });
-
-
-  }, []);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    
-    // Animate submit button
-    const submitBtn = document.querySelector('.submit-btn');
-    gsap.to(submitBtn, {
-      scale: 0.95,
-      duration: 0.1,
-      yoyo: true,
-      repeat: 1,
-      ease: 'power2.inOut',
-    });
-
-    // Show success message (mock submission)
     console.log('Form submitted:', formData);
-    alert('Thank you for your message! We\'ll get back to you soon.');
-    
-    // Reset form
+    alert("Thank you for your message! We'll get back to you soon.");
     setFormData({ name: '', email: '', message: '' });
   };
 
   return (
     <div className="min-h-screen bg-gallery-bg pt-20 overflow-hidden">
       <div className="flex flex-col lg:flex-row min-h-screen">
-        {/* Left Side - Animated Canvas */}
-        <div className="lg:w-1/2 relative bg-gallery-surface slide-in-left">
+        
+        {/* Left */}
+        <motion.div
+          className="lg:w-1/2 relative bg-gallery-surface"
+          variants={slideInLeft}
+          initial="hidden"
+          animate="visible"
+        >
           <div className="p-8 lg:p-16 h-full flex flex-col justify-center">
             <div className="mb-12">
               <h1 className="text-4xl lg:text-6xl font-poppins font-light mb-6 text-foreground">
                 Experience Nigeria
-
                 <span className="block text-primary font-medium">Art Tour</span>
               </h1>
-              
               <p className="text-lg text-gallery-muted font-poppins leading-relaxed">
-               Explore the intersection of art and culture in the heart of Lagos.
+                Explore the intersection of art and culture in the heart of Lagos.
               </p>
             </div>
 
-            {/* Technology Icons */}
+            {/* Icons */}
             <div className="flex space-x-8 mb-12">
-              <div className="tech-icon hover-target cursor-pointer">
-                <Earth className="w-12 h-12 text-primary transition-all duration-300" />
-              </div>
-              <div className="tech-icon hover-target cursor-pointer">
-                <Club className="w-12 h-12 text-primary transition-all duration-300" />
-              </div>
-              <div className="tech-icon hover-target cursor-pointer">
-                <Shell className="w-12 h-12 text-primary transition-all duration-300" />
-              </div>
+              {[Earth, Club, Shell].map((Icon, i) => (
+                <motion.div
+                  key={i}
+                  variants={iconHover}
+                  whileHover="hover"
+                  className="tech-icon cursor-pointer"
+                >
+                  <Icon className="w-12 h-12 text-primary" />
+                </motion.div>
+              ))}
             </div>
 
-            {/* Animated Canvas Container */}
-            <div ref={canvasRef} className="flex-1 min-h-[300px] rounded-lg overflow-hidden blur-in">
+            {/* Canvas */}
+            <motion.div
+              className="flex-1 min-h-[300px] rounded-lg overflow-hidden"
+              variants={blurIn}
+              initial="hidden"
+              animate="visible"
+            >
               <Suspense fallback={
-                <div className="w-full h-full bg-gradient-hero flex items-center justify-center">
-                  <div className="animate-pulse text-primary">Loading visualization...</div>
+                <div className="w-full h-full bg-gradient-hero flex items-center justify-center animate-pulse text-primary">
+                  Loading visualization...
                 </div>
               }>
                 <AnimatedCanvas />
               </Suspense>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Right Side - Contact Form */}
-        <div className="lg:w-1/2 bg-background slide-in-right">
+        {/* Right */}
+        <motion.div
+          className="lg:w-1/2 bg-background"
+          variants={slideInRight}
+          initial="hidden"
+          animate="visible"
+        >
           <div className="p-8 lg:p-16 h-full flex flex-col justify-center">
             <div className="max-w-md mx-auto w-full">
-              <h2 className="text-3xl lg:text-5xl font-geist font-light mb-4 text-foreground fade-in">
+              
+              <motion.h2
+                className="text-3xl lg:text-5xl font-geist font-light mb-4 text-foreground"
+                custom={0}
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+              >
                 Explore Nigeria
-              </h2>
-              <h3 className="text-2xl lg:text-3xl font-geist font-medium mb-8 text-primary fade-in">
-                With a guided Tour
-              </h3>
+              </motion.h2>
 
-              <p className="text-gallery-muted font-poppins mb-12 leading-relaxed fade-in">
-                Ready to explore the intersection of art and culture in the heart of Lagos. A journey through creativity, connection, and the vibrant spirit of the city.
-              </p>
+              <motion.h3
+                className="text-2xl lg:text-3xl font-geist font-medium mb-8 text-primary"
+                custom={1}
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+              >
+                With a guided Tour
+              </motion.h3>
+
+              <motion.p
+                className="text-gallery-muted font-poppins mb-12 leading-relaxed"
+                custom={2}
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+              >
+                Ready to explore the intersection of art and culture in Lagos. A journey through creativity and connection.
+              </motion.p>
 
               {/* Contact Info */}
               <div className="space-y-4 mb-8">
-                <div className="flex items-center space-x-3 fade-in">
-                  <MapPin className="w-5 h-5 text-primary" />
-                  <span className="text-gallery-muted">Lagos, Nigeria</span>
-                </div>
-                <div className="flex items-center space-x-3 fade-in">
-                  <Phone className="w-5 h-5 text-primary" />
-                  <a href="tel:+2347075720266" className="text-gallery-muted">+234 7075 720 266</a>
-                </div>
-                <div className="flex items-center space-x-3 fade-in">
-                  <Mail className="w-5 h-5 text-primary" />
-                  <a href="mailto:info@experiencenigeriaart.com" className="text-gallery-muted">info@experiencenigeriaart.com</a>
-                </div>
+                {[
+                  { icon: MapPin, text: 'Lagos, Nigeria' },
+                  { icon: Phone, text: '+234 7075 720 266', href: 'tel:+2347075720266' },
+                  { icon: Mail, text: 'info@experiencenigeriaart.com', href: 'mailto:info@experiencenigeriaart.com' },
+                ].map(({ icon: Icon, text, href }, i) => (
+                  <motion.div
+                    key={i}
+                    className="flex items-center space-x-3"
+                    custom={i + 3}
+                    variants={fadeIn}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <Icon className="w-5 h-5 text-primary" />
+                    {href ? (
+                      <a href={href} className="text-gallery-muted">{text}</a>
+                    ) : (
+                      <span className="text-gallery-muted">{text}</span>
+                    )}
+                  </motion.div>
+                ))}
               </div>
 
-              {/* Contact Form */}
+              {/* Form */}
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="fade-in">
-                  <label htmlFor="name" className="block text-sm font-medium text-gallery-muted mb-2">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="form-input w-full px-4 py-3 bg-gallery-surface border border-border rounded-lg text-foreground placeholder-gallery-muted focus:outline-none transition-all duration-300"
-                    placeholder="Enter your name"
-                  />
-                </div>
+                {['name', 'email', 'message'].map((field, i) => (
+                  <motion.div
+                    key={field}
+                    custom={i + 6}
+                    variants={fadeIn}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <label htmlFor={field} className="block text-sm font-medium text-gallery-muted mb-2">
+                      {field === 'name' ? 'Your Name' : field === 'email' ? 'Email Address' : 'Message'}
+                    </label>
 
-                <div className="fade-in">
-                  <label htmlFor="email" className="block text-sm font-medium text-gallery-muted mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="form-input w-full px-4 py-3 bg-gallery-surface border border-border rounded-lg text-foreground placeholder-gallery-muted focus:outline-none transition-all duration-300"
-                    placeholder="Enter your email"
-                  />
-                </div>
+                    {field === 'message' ? (
+                      <textarea
+                        id={field}
+                        name={field}
+                        value={formData[field as keyof FormData]}
+                        onChange={handleInputChange}
+                        required
+                        rows={4}
+                        className="form-input w-full px-4 py-3 bg-gallery-surface border border-border rounded-lg text-foreground placeholder-gallery-muted focus:outline-none resize-none"
+                        placeholder="Tell us about your project or inquiry"
+                      />
+                    ) : (
+                      <input
+                        type={field === 'email' ? 'email' : 'text'}
+                        id={field}
+                        name={field}
+                        value={formData[field as keyof FormData]}
+                        onChange={handleInputChange}
+                        required
+                        className="form-input w-full px-4 py-3 bg-gallery-surface border border-border rounded-lg text-foreground placeholder-gallery-muted focus:outline-none"
+                        placeholder={`Enter your ${field}`}
+                      />
+                    )}
+                  </motion.div>
+                ))}
 
-                <div className="fade-in">
-                  <label htmlFor="message" className="block text-sm font-medium text-gallery-muted mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows={4}
-                    className="form-input w-full px-4 py-3 bg-gallery-surface border border-border rounded-lg text-foreground placeholder-gallery-muted focus:outline-none resize-none transition-all duration-300"
-                    placeholder="Tell us about your project or inquiry"
-                  />
-                </div>
-
-                <button
-                  ref={submitBtnRef}
+                <motion.button
                   type="submit"
-                  className="submit-btn w-full bg-gradient-primary text-white py-4 rounded-lg font-medium hover-target transition-all duration-500 ease-out hover:shadow-primary z-20 hover:scale-[1.02] fade-in opacity-100"
+                  whileTap={{ scale: 0.95 }}
+                  className="w-full bg-gradient-primary text-white py-4 rounded-lg font-medium hover-target transition-all duration-500 ease-out hover:shadow-primary hover:scale-[1.02]"
                 >
                   <span className="flex items-center justify-center space-x-2">
                     <Send className="w-5 h-5" />
                     <span>Send Message</span>
                   </span>
-                </button>
+                </motion.button>
               </form>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
-};
-
-export default Contact;
+}

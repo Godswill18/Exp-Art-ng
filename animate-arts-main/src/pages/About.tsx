@@ -311,7 +311,14 @@ const About = () => {
             {/* <span className="gradient-text">About Our Gallery</span> */}
           </motion.h1>
           
-          <motion.p className="page-subtitle text-xl md:text-2xl text-gallery-muted max-w-4xl mx-auto font-light leading-relaxed">
+          <motion.p className="page-subtitle text-xl md:text-2xl text-gallery-muted max-w-4xl mx-auto font-light leading-relaxed"
+           initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.5}}
+          transition={{delay: 0.2, duration: 1.0}}
+          variants={{ 
+          hidden: {opacity: 0, y: 50}, 
+          visible: {opacity: 1, y: 5}}}>
             The International VIP Collector Tour is curated by four passionate art world stakeholders with deep roots in Nigeria’s cultural scene and far-reaching international networks.
             United by a shared commitment to access, excellence, and thoughtful engagement, we offer an insider’s introduction to the people, places, and perspectives shaping contemporary African art.
             This experience is tailored for collectors who value intimacy, depth, and authenticity.
@@ -323,7 +330,7 @@ const About = () => {
       <motion.section className="content-section py-16 px-6"
        initial="hidden"
           whileInView="visible"
-          viewport={{once: false, amount: 0.5}}
+          viewport={{once: false, amount: 0.10}}
           transition={{delay: 0.2, duration: 1.0}}
           variants={{ 
           hidden: {opacity: 0, y: 60}, 
@@ -350,7 +357,15 @@ const About = () => {
         </div>
       </motion.section>
       
-      <section className="content-section py-16 px-6">
+      <motion.section className="content-section py-16 px-6"
+        initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.10}}
+          transition={{delay: 0.2, duration: 1.0}}
+          variants={{ 
+          hidden: {opacity: 0, y: 60}, 
+          visible: {opacity: 1, y: 5}}}>
+
         <div className="max-w-4xl mx-auto">
           <h3 className='md:text-2xl font-space-grotesk mb-8'>
             The Ohiwerei Twins
@@ -367,7 +382,7 @@ const About = () => {
             conventional notions of what art can be in the 21st century.
           </p> */}
         </div>
-      </section>
+      </motion.section>
 
       {/* Featured Artworks Grid */}
       <section className="content-section py-20 px-6">
@@ -417,7 +432,15 @@ const About = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="content-section py-20 px-6 text-center">
+      <motion.section className="content-section py-20 px-6 text-center"
+        initial="hidden"
+          whileInView="visible"
+          viewport={{once: false, amount: 0.10}}
+          transition={{delay: 0.2, duration: 1.0}}
+          variants={{ 
+          hidden: {opacity: 0, y: 60}, 
+          visible: {opacity: 1, y: 5}}}>
+            
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-space-grotesk font-light mb-8 text-accent">
             Experience lagos
@@ -442,7 +465,7 @@ const About = () => {
             </button> */}
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

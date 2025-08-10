@@ -268,7 +268,7 @@ const Home = () => {
       initial="hidden"
           whileInView="visible"
           viewport={{once: false, amount: 0.5}}
-          transition={{delay: 1.20, duration: 1.30}}
+          transition={{delay: 1.0, duration: 1.30}}
           variants={{ 
           hidden: {opacity: 0, y: 40}, 
           visible: {opacity: 1, y: 5}}}>
