@@ -3,9 +3,17 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import AdminSidebar from "./components/AdminSidebar";
+import Dashboard from "./pages/Dashboard";
+import Transactions from "./pages/Transaction";
+import Events from "./pages/Events";
+import Gallery from "./pages/Gallery";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import AdminNavbar from "./components/AdminNavbar";
+import AdminLayout from "./pages/AdminLayout";
 
-// Lazy load components for better performance
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const ArtTours = lazy(() => import("./pages/ArtTours"));
@@ -18,60 +26,134 @@ const WhatsAppButton = lazy(() => import("./components/WhatsAppButton"));
 
 const queryClient = new QueryClient();
 
-const App = () => {
+function ProtectedRoute({ children, isAuthenticated }) {
+  return isAuthenticated ? children : <Navigate to="/admin/login" replace />;
+}
+
+function LayoutWrapper({ children }) {
+  const location = useLocation();
+   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  return (
+      <div
+      className={`relative min-h-screen ${
+        isAdminRoute ? "bg-white cursor-default" : ""
+      }`}
+    >
+      {/* Only show custom cursor on non-admin routes */}
+      {!isAdminRoute && (
+        <Suspense fallback={null}>
+          <CustomCursor />
+        </Suspense>
+      )}
+
+      <Suspense fallback={<div className="h-20 bg-background" />}>
+        {isAdminRoute ? (
+          ""
+        ) : (
+          <Navbar />
+        )}
+      </Suspense>
+
+      {children}
+
+      {/* Only show WhatsApp button on non-admin routes */}
+      {!isAdminRoute && (
+        <Suspense fallback={null}>
+          <WhatsAppButton />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
   const [isLoading, setIsLoading] = useState(true);
+  const isAuthenticated = true; // Replace with real auth
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handlePreloaderComplete = () => {
     setIsLoading(false);
   };
 
+  // Skip preloader on admin routes
+  if (!isAdminRoute && isLoading) {
+    return (
+      <Suspense fallback={<div className="fixed inset-0 bg-background" />}>
+        <Preloader onComplete={handlePreloaderComplete} />
+      </Suspense>
+    );
+  }
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        
-        {isLoading ? (
-          <Suspense fallback={<div className="fixed inset-0 bg-background" />}>
-            <Preloader onComplete={handlePreloaderComplete} />
-          </Suspense>
-        ) : (
-          <BrowserRouter>
-            <div className="relative">
-              <Suspense fallback={null}>
-                <CustomCursor />
-              </Suspense>
-              
-              <Suspense fallback={<div className="h-20 bg-background" />}>
-                <Navbar />
-              </Suspense>
-              
-              <main>
-                <Suspense fallback={
-                  <div className="min-h-screen bg-background flex items-center justify-center">
-                    <div className="animate-pulse text-primary text-xl">Loading...</div>
-                  </div>
-                }>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/art-tours" element={<ArtTours />} />
-                    <Route path="/contact" element={<Contact />} />
-                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
-              </main>
-              
-              <Suspense fallback={null}>
-                <WhatsAppButton />
-              </Suspense>
+    <LayoutWrapper>
+      <main>
+        <Suspense
+          fallback={
+            <div className="min-h-screen bg-background flex items-center justify-center">
+              <div className="animate-pulse text-primary text-xl">Loading...</div>
             </div>
-          </BrowserRouter>
-        )}
-      </TooltipProvider>
-    </QueryClientProvider>
+          }
+        >
+          <Routes>
+            {/* Public */}
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/art-tours" element={<ArtTours />} />
+            <Route path="/contact" element={<Contact />} />
+
+            {/* Admin Auth */}
+            <Route path="/admin/login" element={<Login />} />
+            <Route path="/admin/signup" element={<Signup />} />
+
+            {/* Admin Dashboard */}
+            <Route
+              path="/admin/*"
+                element={
+                  <AdminLayout>
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                      {/* <div className="flex flex-1"> */}
+                        {/* <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} /> */}
+                        <main className="flex-1 p-4">
+                          {/* <AdminNavbar onMenuClick={() => setSidebarOpen(true)} /> NEW */}
+                          <div className="p-4">
+                            <Routes>
+                              <Route path="dashboard" element={<Dashboard />} />
+                              <Route path="transactions" element={<Transactions />} />
+                              <Route path="events" element={<Events />} />
+                              <Route path="gallery" element={<Gallery />} />
+                              <Route path="" element={<Navigate to="dashboard" />} />
+                            </Routes>
+                          </div>
+                        </main>
+                      {/* </div> */}
+                    </ProtectedRoute>
+                  </AdminLayout>
+                }
+            />
+
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </main>
+    </LayoutWrapper>
   );
-};
+}
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;

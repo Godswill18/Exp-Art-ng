@@ -69,7 +69,14 @@ export default {
 				'gradient-accent': 'var(--gradient-accent)',
 				'gradient-hero': 'var(--gradient-hero)',
 				'gradient-glow': 'var(--gradient-glow)',
-				'shimmer': 'linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent)'
+				'shimmer': 'linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent)',
+				'black-gray-lines': `repeating-linear-gradient(
+          to right,
+          #000000,
+          #000000 20px,
+          #1f2937 20px,
+          #1f2937 21px
+        )`
 			},
 			boxShadow: {
 				'primary': 'var(--shadow-primary)',

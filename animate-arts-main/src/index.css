@@ -119,6 +119,11 @@
     cursor: none; /* Hide default cursor for custom cursor */
   }
 
+  .admin-page {
+  cursor: default !important;
+}
+
+
   /* Custom cursor styles */
   .custom-cursor {
     position: fixed;
