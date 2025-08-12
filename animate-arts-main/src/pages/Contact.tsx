@@ -1,6 +1,9 @@
-import { Suspense, lazy, useState, ChangeEvent, FormEvent } from 'react';
+import { Suspense, lazy, useState, ChangeEvent, FormEvent, useRef } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { Earth, Club, Shell, Send, MapPin, Phone, Mail } from 'lucide-react';
+import emailjs from '@emailjs/browser';
+import { toast } from "sonner";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const AnimatedCanvas = lazy(() => import('../components/AnimatedCanvas'));
 
@@ -47,17 +50,61 @@ const iconHover: Variants = {
 
 export default function Contact() {
   const [formData, setFormData] = useState<FormData>({ name: '', email: '', message: '' });
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const form = useRef<HTMLFormElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+   const handleCaptchaChange = (value: string | null) => {
+    setCaptchaVerified(!!value);
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert("Thank you for your message! We'll get back to you soon.");
-    setFormData({ name: '', email: '', message: '' });
+
+     if (!captchaVerified) {
+      toast.error('Please verify the captcha before submitting.', { position: 'top-center' });
+      return;
+    }
+
+
+   const timestamp =  new Date().toLocaleString('en-NG', {
+    timeZone: 'Africa/Lagos',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+
+   // Set the hidden input value
+  if (form.current) {
+    (form.current.querySelector('input[name="timestamp"]') as HTMLInputElement).value = timestamp;
+  }
+
+  emailjs
+    .sendForm('service_w2hm2wi', 'template_ynuakwk', form.current, {
+      publicKey: 'Pu4lBns8h8EytDUVn',
+    })
+    .then(
+      (result) => {
+        console.log('SUCCESS!', result.text);
+        toast.success('Your request has been sent successfully!', {position: 'top-center'});
+        setFormData({
+          name: '',
+          email: '',
+          message: ''
+        });
+      },
+      (error) => {
+        console.log('FAILED...', error.text);
+        toast.error('Oops! Something went wrong. Please try again later.');
+      }
+    );
   };
 
   return (
@@ -180,7 +227,8 @@ export default function Contact() {
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={form} onSubmit={handleSubmit} className="space-y-6">
+                <input type="hidden" name="timestamp" value="" />
                 {['name', 'email', 'message'].map((field, i) => (
                   <motion.div
                     key={field}
@@ -219,10 +267,21 @@ export default function Contact() {
                   </motion.div>
                 ))}
 
+                 {/* reCAPTCHA */}
+                <ReCAPTCHA
+                  sitekey="6Lcw2qMrAAAAAG4HwZZhW6vgGd8pv7ia1D6mL4mH"
+                  onChange={handleCaptchaChange}
+                />
+
                 <motion.button
-                  type="submit"
                   whileTap={{ scale: 0.95 }}
-                  className="w-full bg-gradient-primary text-white py-4 rounded-lg font-medium hover-target transition-all duration-500 ease-out hover:shadow-primary hover:scale-[1.02]"
+                   type="submit"
+                  disabled={!captchaVerified}
+                  className={`w-full py-4 rounded-lg font-medium transition-all duration-300 ${
+                    captchaVerified
+                      ? 'bg-purple-600 hover:bg-purple-700 text-white'
+                      : 'bg-gray-600 text-gray-300 cursor-not-allowed'
+                  }`}
                 >
                   <span className="flex items-center justify-center space-x-2">
                     <Send className="w-5 h-5" />

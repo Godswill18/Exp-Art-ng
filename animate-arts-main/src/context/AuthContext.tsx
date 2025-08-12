@@ -15,12 +15,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = () => {
     setIsAuthenticated(true);
-    navigate("/dashboard");
+    navigate("/admin/dashboard");
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    navigate("/");
+    navigate("/admin/login");
   };
 
   return (

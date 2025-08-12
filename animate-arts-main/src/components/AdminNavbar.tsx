@@ -6,7 +6,7 @@ const AdminNavbar = ({ onMenuClick }) => {
   return (
     <header className="bg-white text-black px-6 py-3 shadow-md flex justify-between items-center">
       {/* Logo */}
-      <h1 className="text-xl font-bold text-blue-600">My App</h1>
+      <h1 className="text-xl font-bold text-blue-600">Admin</h1>
 
       {/* Mobile Menu Button */}
       <button

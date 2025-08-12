@@ -28,7 +28,7 @@ export default function AdminSidebar({ isOpen, onClose }) {
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex w-64 bg-white shadow-lg min-h-screen flex-col">
         <div className="p-6 border-b border-gray-200">
-          <h1 className="text-2xl font-bold text-blue-600">My App</h1>
+          <h1 className="text-2xl font-bold text-blue-600"> EXP ART</h1>
         </div>
 
         <nav className="flex-1 p-4 space-y-2">
