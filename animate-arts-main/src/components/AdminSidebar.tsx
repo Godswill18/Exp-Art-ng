@@ -7,20 +7,36 @@ import {
   PhotoIcon,
   ArrowRightEndOnRectangleIcon,
   XMarkIcon,
+  ListBulletIcon,
+  UserCircleIcon,
+  
+  
 } from "@heroicons/react/24/outline";
+import { useAuthStore } from "@/context/AuthContext";
+
 
 export default function AdminSidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
+  const {logoutAdmin} = useAuthStore();
 
-  const handleLogout = () => {
-    navigate("/admin/login");
+  const handleLogout = async () => {
+    const response = await logoutAdmin();
+    if (response.success) {
+      navigate("/nowhere-home/take-me-in");
+
+    }else{
+      logoutAdmin();
+      console.error('Logout Failed:', response.message);
+    }
   };
 
   const navItems = [
-    { name: "Dashboard", path: "/admin/dashboard", icon: HomeIcon },
-    { name: "Transactions", path: "/admin/transactions", icon: CreditCardIcon },
-    { name: "Events", path: "/admin/events", icon: CalendarIcon },
-    { name: "Gallery", path: "/admin/gallery", icon: PhotoIcon },
+    { name: "Dashboard", path: "/nowhere-home/dashboard", icon: HomeIcon },
+    { name: "Transactions", path: "/nowhere-home/transactions", icon: CreditCardIcon },
+    { name: "Contacts", path: "/nowhere-home/admin_contact", icon: UserCircleIcon },
+    { name: "Events", path: "/nowhere-home/events", icon: CalendarIcon },
+    { name: "Gallery", path: "/nowhere-home/gallery", icon: PhotoIcon },
+    { name: "Flow Of Events", path: "/nowhere-home/flow_of_events", icon: ListBulletIcon },
   ];
 
   return (

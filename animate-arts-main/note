@@ -1,0 +1,198 @@
+// import { Suspense, lazy, useState, useEffect } from "react";
+// import { Toaster } from "@/components/ui/sonner";
+// import { TooltipProvider } from "@/components/ui/tooltip";
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+// import AdminSidebar from "./components/AdminSidebar";
+// import AdminNavbar from "./components/AdminNavbar";
+// import Dashboard from "./pages/Dashboard";
+// import Transactions from "./pages/Transaction";
+// import Events from "./pages/Events";
+// import Gallery from "./pages/Gallery";
+// import Login from "./pages/Login";
+// import Signup from "./pages/Signup";
+// import AdminLayout from "./pages/AdminLayout";
+// import { useAuthStore } from "@/context/AuthContext";
+// import { ProtectedRoute } from "@/routes"; // Now from separate file
+
+
+// const Home = lazy(() => import("./pages/Home"));
+// const About = lazy(() => import("./pages/About"));
+// const ArtTours = lazy(() => import("./pages/ArtTours"));
+// const Contact = lazy(() => import("./pages/Contact"));
+// const NotFound = lazy(() => import("./pages/NotFound"));
+// const Navbar = lazy(() => import("./components/Navbar"));
+// const CustomCursor = lazy(() => import("./components/CustomCursor"));
+// const Preloader = lazy(() => import("./components/Preloader"));
+// const WhatsAppButton = lazy(() => import("./components/WhatsAppButton"));
+
+// const queryClient = new QueryClient();
+
+
+// function LayoutWrapper({ children }) {
+//   const location = useLocation();
+//   const isAdminRoute = location.pathname.startsWith("/nowhere-home");
+
+//   return (
+//     <div
+//       className={`relative min-h-screen ${
+//         isAdminRoute ? "bg-white cursor-default" : ""
+//       }`}
+//     >
+//       {!isAdminRoute && (
+//         <Suspense fallback={null}>
+//           <CustomCursor />
+//         </Suspense>
+//       )}
+
+//       <Suspense fallback={<div className="h-20 bg-background" />}>
+//         {isAdminRoute ? null : <Navbar />}
+//       </Suspense>
+
+//       {children}
+
+//       {!isAdminRoute && (
+//         <Suspense fallback={null}>
+//           <WhatsAppButton />
+//         </Suspense>
+//       )}
+//     </div>
+//   );
+// }
+
+// function AppContent() {
+//   const location = useLocation();
+//   const isAdminRoute = location.pathname.startsWith("/nowhere-home");
+//   const [isLoading, setIsLoading] = useState(true);
+//   const { getUser, isAuthenticated, loading } = useAuthStore();
+//   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+//   useEffect(() => {
+//     const checkAuth = async () => {
+//       try {
+//         await getUser();
+//       } catch (error) {
+//         // User is not authenticated, getUser handles state cleanup
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     if (isAdminRoute) {
+//       checkAuth();
+//     } else {
+//       setIsLoading(false);
+//     }
+//   }, [getUser, isAdminRoute]);
+
+//   if (!isAdminRoute && isLoading) {
+//     return (
+//       <Suspense fallback={<div className="fixed inset-0 bg-background" />}>
+//         <Preloader onComplete={() => setIsLoading(false)} />
+//       </Suspense>
+//     );
+//   }
+
+//   return (
+//     <LayoutWrapper>
+//       <Toaster position="top-right" richColors />
+//       <main>
+//         <Suspense
+//           fallback={
+//             <div className="min-h-screen bg-background flex items-center justify-center">
+//               <div className="animate-pulse text-primary text-xl">Loading...</div>
+//             </div>
+//           }
+//         >
+//           <Routes>
+//             {/* Public Routes */}
+//             <Route path="/" element={<Home />} />
+//             <Route path="/about" element={<About />} />
+//             <Route path="/art-tours" element={<ArtTours />} />
+//             <Route path="/contact" element={<Contact />} />
+
+//             {/* Admin Auth Routes */}
+//             <Route
+//               path="/nowhere-home/take-me-in"
+//               element={
+//                 isAuthenticated ? (
+//                   <Navigate to="/nowhere-home/dashboard" replace />
+//                 ) : (
+//                   <Login />
+//                 )
+//               }
+//             />
+//             <Route
+//               path="/nowhere-home/try-to-know-me"
+//               element={
+//                 isAuthenticated ? (
+//                   <Navigate to="/nowhere-home/dashboard" replace />
+//                 ) : (
+//                   <Signup />
+//                 )
+//               }
+//             />
+
+//             {/* Admin Dashboard Routes */}
+//             <Route
+//               path="/nowhere-home/*"
+//               element={
+//                   // <ProtectedRoute>
+//                 <AdminLayout>
+//                   <div className="flex flex-1 min-h-screen">
+//                     {/* <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} /> */}
+//                     <div className="flex-1 flex flex-col">
+//                       {/* <AdminNavbar onMenuClick={() => setSidebarOpen(true)} /> */}
+//                       <main className="flex-1 p-4">
+//                         <Routes>
+//                           <Route path="dashboard" element={<Dashboard />} />
+//                           <Route path="transactions" element={<Transactions />} />
+//                           <Route path="events" element={<Events />} />
+//                           <Route path="gallery" element={<Gallery />} />
+//                           <Route path="" element={<Navigate to="dashboard" replace />} />
+//                         </Routes>
+//                       </main>
+//                     </div>
+//                   </div>
+//                 </AdminLayout>
+//                   // </ProtectedRoute>
+//               }
+//             >
+//                 <div className="flex flex-1 min-h-screen">
+//                       <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+//                       <div className="flex-1 flex flex-col">
+//                         <AdminNavbar onMenuClick={() => setSidebarOpen(true)} />
+//                         <main className="flex-1 p-4">
+//                           <Routes>
+//                             <Route path="dashboard" element={<Dashboard />} />
+//                             <Route path="transactions" element={<Transactions />} />
+//                             <Route path="events" element={<Events />} />
+//                             <Route path="gallery" element={<Gallery />} />
+//                             <Route path="" element={<Navigate to="dashboard" replace />} />
+//                           </Routes>
+//                         </main>
+//                       </div>
+//                     </div>
+
+//             </Route>
+
+//             {/* 404 Route */}
+//             <Route path="*" element={<NotFound />} />
+//           </Routes>
+//         </Suspense>
+//       </main>
+//     </LayoutWrapper>
+//   );
+// }
+
+// const App = () => (
+//   <QueryClientProvider client={queryClient}>
+//     <TooltipProvider>
+//       <BrowserRouter>
+//         <AppContent />
+//       </BrowserRouter>
+//     </TooltipProvider>
+//   </QueryClientProvider>
+// );
+
+// export default App;

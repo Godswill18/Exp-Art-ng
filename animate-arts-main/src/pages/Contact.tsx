@@ -7,6 +7,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 const AnimatedCanvas = lazy(() => import('../components/AnimatedCanvas'));
 
+const Secreate_key = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6Lcw2qMrAAAAAG4HwZZhW6vgGd8pv7ia1D6mL4mH'
+
 interface FormData {
   name: string;
   email: string;
@@ -269,7 +271,7 @@ export default function Contact() {
 
                  {/* reCAPTCHA */}
                 <ReCAPTCHA
-                  sitekey="6Lcw2qMrAAAAAG4HwZZhW6vgGd8pv7ia1D6mL4mH"
+                  sitekey={Secreate_key}
                   onChange={handleCaptchaChange}
                 />
 

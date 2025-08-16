@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Users, DollarSign, Activity, Calendar, TrendingUp } from "lucide-react";
 import { mockTransactions, mockEvents } from "../data/mockData";
+import { useAuthStore } from "@/context/AuthContext";
 
 export default function Dashboard() {
+ 
+  const { getUser, user, isAuthenticated, loading } = useAuthStore();
+
+  useEffect(() => {
+    // Only fetch if not already authenticated
+    if (!isAuthenticated && !loading) {
+      getUser().catch((err) => console.error("Failed to fetch user:", err));
+    }
+  }, [isAuthenticated, loading, getUser]);
+
+  // console.log("User:" , user);
+
   const totalRevenue = mockTransactions
     .filter(t => t.status === "Success")
     .reduce((sum, t) => sum + t.amount, 0);
