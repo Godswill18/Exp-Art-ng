@@ -102,7 +102,7 @@ export default function Events() {
   };
 
   return (
-      <div className="p-6 space-y-6"> 
+      <div className="bg-gradient-to-br from-black via-gray-900 to-emerald-900 p-6 space-y-6 min-h-screen"> 
     <h1 className="text-center text-lg">Events</h1>
     {/* Create Event Button */}
     <button

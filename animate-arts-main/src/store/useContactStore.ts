@@ -12,93 +12,93 @@ interface ContactMessage {
 }
 
 interface ContactState {
-  messages: ContactMessage[];
+  message: ContactMessage[];
   loading: boolean;
   error: string | null;
   fetchMessages: () => Promise<void>;
-  // markAsRead: (id: string) => Promise<void>;
   deleteMessage: (id: string) => Promise<void>;
+  createMessage: (messageData: Omit<ContactMessage, '_id' | 'createdAt' | 'isRead'>) => Promise<void>;
 }
 
 const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/';
 
 export const useContactStore = create<ContactState>((set) => ({
-  messages: [],
+  message: [],
   loading: false,
   error: null,
 
-  fetchMessages: async () => {
-    set({ loading: true, error: null });
-    try {
-      const response = await fetch(`${API_URL}api/contact/get-all`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+fetchMessages: async () => {
+  set({ loading: true, error: null });
+  try {
+    const response = await fetch(`${API_URL}api/contacts/get-all-contacts`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch messages');
-      }
+    if (!response.ok) throw new Error('Failed to fetch messages');
+    const data = await response.json();
 
-      const data = await response.json();
-      set({ messages: data, loading: false });
-    } catch (err) {
-      set({ error: err instanceof Error ? err.message : 'Unknown error', loading: false });
-      toast.error('Failed to load messages',{
-        position: "top-center"
-      });
-    }
-  },
+    // Backend sends { contacts: [...] }
+    set({ message: data?.contacts || [] });
+  } catch (error) {
+    console.error(error);
+    set({ message: [] });
+  } finally {
+    set({ loading: false });
+  }
+},
 
-  // markAsRead: async (id) => {
-  //   set({ loading: true, error: null });
-  //   try {
-  //     const response = await fetch(`${API_URL}api/contact/mark-read/${id}`, {
-  //       method: 'PUT',
-  //       credentials: 'include',
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to mark message as read');
-  //     }
-
-  //     set((state) => ({
-  //       messages: state.messages.map(msg => 
-  //         msg._id === id ? { ...msg, isRead: true } : msg
-  //       ),
-  //       loading: false
-  //     }));
-  //     toast.success('Message marked as read');
-  //   } catch (err) {
-  //     set({ error: err instanceof Error ? err.message : 'Unknown error', loading: false });
-  //     toast.error('Failed to update message status');
-  //   }
-  // },
 
   deleteMessage: async (id) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_URL}api/contact/delete/${id}`, {
+      const response = await fetch(`${API_URL}api/contacts/delete-contact/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to delete message');
-      }
-
+      if (!response.ok) throw new Error('Failed to delete message');
+      
       set((state) => ({
-        messages: state.messages.filter(msg => msg._id !== id),
+        message: state.message.filter(msg => msg._id !== id),
         loading: false
       }));
-      toast.success('Message deleted successfully');
+      toast.success('Message deleted successfully',{
+        position: "top-center"
+      });
     } catch (err) {
       set({ error: err instanceof Error ? err.message : 'Unknown error', loading: false });
-      toast.error('Failed to delete message',{
-         position: "top-center"
-      });
+      toast.error('Failed to delete message', { position: "top-center" });
     }
+  },
+
+createMessage: async (formData) => {
+  set({ loading: true });
+  try {
+    const response = await fetch(`${API_URL}api/contacts/create-contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+      credentials: "include",
+    });
+
+    if (!response.ok) throw new Error("Failed to create message");
+
+    const data = await response.json();
+    const newContact = data?.contacts; // <-- extract the contact object
+
+    set((state) => ({
+      message: [newContact, ...state.message], // <-- store contact, not entire response
+      loading: false,
+    }));
+
+    return newContact; // <-- return to caller
+  } catch (error) {
+    console.error("Create message failed:", error);
+    set({ loading: false });
+    throw error;
   }
+},
+
 }));

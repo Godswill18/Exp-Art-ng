@@ -22,6 +22,7 @@ interface EventState {
 
   // CRUD actions
   fetchEvents: () => Promise<void>;
+  fetchEventsUser: () => Promise<void>;
   fetchEventById: (id: string) => Promise<Event | null>;
   createEvent: (formData: FormData) => Promise<boolean>;
   updateEvent: (id: string, formData: FormData) => Promise<boolean>;
@@ -43,6 +44,27 @@ export const useEventStore = create<EventState>()(
         set({ loading: true, error: null });
         try {
           const res = await fetch(`${API_URL}api/events/get-events`, {
+            method: "GET",
+            credentials: "include",
+          });
+          const data = await res.json();
+          if (res.ok) {
+            set({ events: data.events, loading: false });
+          } else {
+            set({ error: data.message || "Failed to fetch events", loading: false });
+          }
+        } catch (err) {
+          set({
+            error: err instanceof Error ? err.message : "Network error",
+            loading: false,
+          });
+        }
+      },
+
+      fetchEventsUser: async () => {
+        set({ loading: true, error: null });
+        try {
+          const res = await fetch(`${API_URL}api/events/get-user-events`, {
             method: "GET",
             credentials: "include",
           });

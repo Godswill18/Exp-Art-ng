@@ -12,63 +12,65 @@ const About = () => {
   const tiltRefs = useRef<(HTMLDivElement | null)[]>([]);
   const { gallery, loading, fetchGalleryUser } = useGalleryStore();
 
-  useEffect(() => {
-    // Scroll to top on page load
-    window.scrollTo(0, 0);
-    // Fetch gallery data
-    fetchGalleryUser();
+ useEffect(() => {
+  if (!tiltRefs.current.length) return;
 
-    // 3D tilt effect setup
-    tiltRefs.current.forEach((ref, index) => {
-      if (ref) {
-        const handleMouseMove = (e: MouseEvent) => {
-          const rect = ref.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          const rotateX = (y - centerY) / centerY * -20;
-          const rotateY = (x - centerX) / centerX * 20;
-          
-          gsap.to(ref, {
-            rotationX: rotateX,
-            rotationY: rotateY,
-            transformPerspective: 1000,
-            duration: 0.3,
-            ease: 'power2.out',
-          });
-        };
+  const cleanups: (() => void)[] = [];
 
-        const handleMouseLeave = () => {
-          gsap.to(ref, {
-            rotationX: 0,
-            rotationY: 0,
-            duration: 0.6,
-            ease: 'power4.out',
-          });
-        };
+  tiltRefs.current.forEach((ref) => {
+    if (!ref) return;
 
-        ref.addEventListener('mousemove', handleMouseMove);
-        ref.addEventListener('mouseleave', handleMouseLeave);
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = ref.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-        return () => {
-          ref.removeEventListener('mousemove', handleMouseMove);
-          ref.removeEventListener('mouseleave', handleMouseLeave);
-        };
-      }
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -20;
+      const rotateY = ((x - centerX) / centerX) * 20;
+
+      gsap.to(ref, {
+        rotationX: rotateX,
+        rotationY: rotateY,
+        transformPerspective: 1000,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(ref, {
+        rotationX: 0,
+        rotationY: 0,
+        duration: 0.6,
+        ease: "power4.out",
+      });
+    };
+
+    ref.addEventListener("mousemove", handleMouseMove);
+    ref.addEventListener("mouseleave", handleMouseLeave);
+
+    cleanups.push(() => {
+      ref.removeEventListener("mousemove", handleMouseMove);
+      ref.removeEventListener("mouseleave", handleMouseLeave);
     });
+  });
 
-    const timeout = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 500);
+  const timeout = setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 500);
 
-    return () => clearTimeout(timeout);
-  }, [fetchGalleryUser]);
+  return () => {
+    cleanups.forEach((cleanup) => cleanup());
+    clearTimeout(timeout);
+  };
+}, [gallery]); // important: re-run when gallery changes
+
 
   return (
-    <div className="min-h-screen bg-gallery-bg pt-20">
+    <div className="min-h-screen bg-gallery-bg pt-20 overflow-hidden">
       {/* Hero Section */}
       <section className="relative py-20 px-6 " >
         <div className="max-w-6xl mx-auto text-center">
@@ -191,7 +193,7 @@ const About = () => {
                   <div className="relative overflow-hidden bg-gallery-surface rounded-lg hover-lift">
                     <div className="aspect-square overflow-hidden">
                       <img
-                        src={item.image}
+                        src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${item.image}`}
                         alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         loading="lazy"

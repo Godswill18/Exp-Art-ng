@@ -4,6 +4,7 @@ import { Earth, Club, Shell, Send, MapPin, Phone, Mail } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { toast } from "sonner";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useContactStore } from '@/store/useContactStore';
 
 const AnimatedCanvas = lazy(() => import('../components/AnimatedCanvas'));
 
@@ -53,6 +54,7 @@ const iconHover: Variants = {
 export default function Contact() {
   const [formData, setFormData] = useState<FormData>({ name: '', email: '', message: '' });
   const [captchaVerified, setCaptchaVerified] = useState(false);
+  const {createMessage} = useContactStore();
   const form = useRef<HTMLFormElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -64,50 +66,33 @@ export default function Contact() {
     setCaptchaVerified(!!value);
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: FormEvent) => {
+  e.preventDefault();
 
-     if (!captchaVerified) {
-      toast.error('Please verify the captcha before submitting.', { position: 'top-center' });
-      return;
-    }
-
-
-   const timestamp =  new Date().toLocaleString('en-NG', {
-    timeZone: 'Africa/Lagos',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  });
-
-   // Set the hidden input value
-  if (form.current) {
-    (form.current.querySelector('input[name="timestamp"]') as HTMLInputElement).value = timestamp;
+  if (!captchaVerified) {
+    toast.error("Please verify the captcha before submitting.", { position: "top-center" });
+    return;
   }
 
-  emailjs
-    .sendForm('service_w2hm2wi', 'template_ynuakwk', form.current, {
-      publicKey: 'Pu4lBns8h8EytDUVn',
-    })
-    .then(
-      (result) => {
-        console.log('SUCCESS!', result.text);
-        toast.success('Your request has been sent successfully!', {position: 'top-center'});
-        setFormData({
-          name: '',
-          email: '',
-          message: ''
-        });
-      },
-      (error) => {
-        console.log('FAILED...', error.text);
-        toast.error('Oops! Something went wrong. Please try again later.');
-      }
+  try {
+    await createMessage(formData);
+
+    await emailjs.sendForm(
+      "service_w2hm2wi",
+      "template_ynuakwk",
+      form.current,
+      { publicKey: "Pu4lBns8h8EytDUVn" }
     );
-  };
+
+    toast.success("Your request has been sent successfully!", { position: "top-center" });
+    setFormData({ name: "", email: "", message: "" });
+
+  } catch (error) {
+    console.error(error);
+    toast.error("Oops! Something went wrong. Please try again later.");
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gallery-bg pt-20 overflow-hidden">

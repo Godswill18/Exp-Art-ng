@@ -19,7 +19,7 @@ export default function Transactions() {
   });
 
   return (
-    <div>
+    <div className="bg-gradient-to-br from-black via-gray-900 to-emerald-900 min-h-screen">
       <h1 className="text-2xl font-bold mb-6">Transactions</h1>
 
       {/* Search & Filter */}

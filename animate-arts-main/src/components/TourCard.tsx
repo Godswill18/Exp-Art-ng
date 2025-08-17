@@ -18,6 +18,7 @@ interface Tour {
   tickets: {
     general: TicketOption;
     vip: TicketOption;
+    free: TicketOption;
   };
 }
 
@@ -106,6 +107,21 @@ const TourCard = ({ tour }: TourCardProps) => {
     }
   };
 
+const formatPrice = (price: number): string => {
+  // Handle null/undefined/NaN cases
+  if (price === null || price === undefined || isNaN(price)) {
+    return '0';
+  }
+  
+  // Handle zero case
+  if (price === 0) {
+    return '0';
+  }
+  
+  // Format positive numbers with commas
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
   return (
     <div
       data-tour-id={tour.id}
@@ -172,7 +188,7 @@ const TourCard = ({ tour }: TourCardProps) => {
                 }`}
               >
                 <div className="font-semibold">{ticket.name}</div>
-                <div className="text-xs opacity-90">₦{ticket.price}</div>
+                <div className="text-xs opacity-90">₦ {formatPrice(ticket.price)}</div>
               </button>
             ))}
           </div>
@@ -211,7 +227,7 @@ const TourCard = ({ tour }: TourCardProps) => {
           <div className="flex justify-between items-center font-inter">
             <span className="text-gray-300">Total Cost:</span>
             <span className="text-xl font-bold text-indigo-400">
-              ₦{totalCost}
+              ₦ {formatPrice(totalCost)}
             </span>
           </div>
         </div>

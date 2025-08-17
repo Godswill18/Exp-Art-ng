@@ -91,7 +91,7 @@ export default function Gallery() {
   };
 
   return (
-    <div className="p-6">
+    <div className="bg-gradient-to-br from-black via-gray-900 to-emerald-900 min-h-screen p-6">
       {/* Header and Create Button */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Gallery</h1>
