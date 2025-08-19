@@ -31,6 +31,7 @@ interface EventState {
 }
 
 const API_URL = import.meta.env.VITE_BACKEND_API_URL || "http://localhost:5000/";
+// const API_URL = "/api";
 
 export const useEventStore = create<EventState>()(
   persist(
@@ -43,7 +44,7 @@ export const useEventStore = create<EventState>()(
       fetchEvents: async () => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}api/events/get-events`, {
+          const res = await fetch(`${API_URL}/events/get-events`, {
             method: "GET",
             credentials: "include",
           });
@@ -64,7 +65,7 @@ export const useEventStore = create<EventState>()(
       fetchEventsUser: async () => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}api/events/get-user-events`, {
+          const res = await fetch(`${API_URL}/events/get-user-events`, {
             method: "GET",
             credentials: "include",
           });
@@ -86,7 +87,7 @@ export const useEventStore = create<EventState>()(
       fetchEventById: async (id) => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}api/events/get-event/${id}`, {
+          const res = await fetch(`${API_URL}/events/get-event/${id}`, {
             credentials: "include",
           });
           const data = await res.json();
@@ -110,7 +111,7 @@ export const useEventStore = create<EventState>()(
       createEvent: async (formData) => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}api/events/create-event`, {
+          const res = await fetch(`${API_URL}/events/create-event`, {
             method: "POST",
             body: formData,
             credentials: "include",
@@ -137,7 +138,7 @@ export const useEventStore = create<EventState>()(
       updateEvent: async (id, formData) => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}api/events/update-event/${id}`, {
+          const res = await fetch(`${API_URL}/events/update-event/${id}`, {
             method: "PUT",
             body: formData,
             credentials: "include",
@@ -169,7 +170,7 @@ export const useEventStore = create<EventState>()(
       deleteEvent: async (id) => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}api/events/delete-event/${id}`, {
+          const res = await fetch(`${API_URL}/events/delete-event/${id}`, {
             method: "DELETE",
             credentials: "include",
           });

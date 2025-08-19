@@ -21,6 +21,7 @@ interface ContactState {
 }
 
 const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/';
+// const API_URL = "/api";
 
 export const useContactStore = create<ContactState>((set) => ({
   message: [],
@@ -30,7 +31,7 @@ export const useContactStore = create<ContactState>((set) => ({
 fetchMessages: async () => {
   set({ loading: true, error: null });
   try {
-    const response = await fetch(`${API_URL}api/contacts/get-all-contacts`, {
+    const response = await fetch(`${API_URL}/contacts/get-all-contacts`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -53,7 +54,7 @@ fetchMessages: async () => {
   deleteMessage: async (id) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_URL}api/contacts/delete-contact/${id}`, {
+      const response = await fetch(`${API_URL}/contacts/delete-contact/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -76,7 +77,7 @@ fetchMessages: async () => {
 createMessage: async (formData) => {
   set({ loading: true });
   try {
-    const response = await fetch(`${API_URL}api/contacts/create-contact`, {
+    const response = await fetch(`${API_URL}/contacts/create-contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

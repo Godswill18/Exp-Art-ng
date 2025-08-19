@@ -27,7 +27,7 @@ export const useGalleryStore = create<GalleryState>((set) => ({
   fetchGallery: async () => {
     set({ loading: true });
     try {
-      const res = await fetch(`${API_URL}api/gallery/get-all-posts`, {
+      const res = await fetch(`${API_URL}/gallery/get-all-posts`, {
           method: "GET",
             credentials: "include",
       });
@@ -42,7 +42,7 @@ export const useGalleryStore = create<GalleryState>((set) => ({
   fetchGalleryUser: async () => {
     set({ loading: true });
     try {
-      const res = await fetch(`${API_URL}api/gallery/get-all-posts`, {
+      const res = await fetch(`${API_URL}/gallery/get-all-posts`, {
           method: "GET",
             credentials: "include",
       });
@@ -56,7 +56,7 @@ export const useGalleryStore = create<GalleryState>((set) => ({
 
   createGalleryItem: async (formData) => {
     try {
-      const res = await fetch(`${API_URL}api/gallery/upload-post`, {
+      const res = await fetch(`${API_URL}/gallery/upload-post`, {
         method: "POST",
         body: formData,
         credentials: "include", // must be FormData, no JSON.stringify here
@@ -75,7 +75,7 @@ export const useGalleryStore = create<GalleryState>((set) => ({
 
 updateGalleryItem: async (id, formData) => {
   try {
-    const res = await fetch(`${API_URL}api/gallery/update-post/${id}`, {
+    const res = await fetch(`${API_URL}/gallery/update-post/${id}`, {
       method: "PUT",
       body: formData,
       credentials: "include",
@@ -101,7 +101,7 @@ updateGalleryItem: async (id, formData) => {
 
   deleteGalleryItem: async (id) => {
     try {
-      const res = await fetch(`${API_URL}api/gallery/delete-post/${id}`, {
+      const res = await fetch(`${API_URL}/gallery/delete-post/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
