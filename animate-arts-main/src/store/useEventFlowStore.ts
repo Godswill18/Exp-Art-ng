@@ -21,8 +21,9 @@ interface EventFlowState {
   getEventDayById: (id: string) => Promise<EventDay | null>;
 }
 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/';
-// const API_URL = import.meta.env.VITE_BACKEND_API_URL ||"/api";
+// const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://api.experiencenigeriaart.com';
+// const API_URL = "/api";
 
 export const useEventFlowStore = create<EventFlowState>((set) => ({
   eventDays: [],
@@ -32,7 +33,7 @@ export const useEventFlowStore = create<EventFlowState>((set) => ({
   fetchEventDays: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_URL}/schedule/get-all-schedule`, {
+      const response = await fetch(`${API_URL}/api/schedule/get-all-schedule`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ export const useEventFlowStore = create<EventFlowState>((set) => ({
   fetchEventDaysUser: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_URL}/schedule/get-all-schedule-user`, {
+      const response = await fetch(`${API_URL}/api/schedule/get-all-schedule-user`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ export const useEventFlowStore = create<EventFlowState>((set) => ({
   createEventDay: async (eventData) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_URL}/schedule/create-schedule`, {
+      const response = await fetch(`${API_URL}/api/schedule/create-schedule`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +112,7 @@ export const useEventFlowStore = create<EventFlowState>((set) => ({
   updateEventDay: async (id, eventData) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_URL}/schedule/update-schedule/${id}`, {
+      const response = await fetch(`${API_URL}/api/schedule/update-schedule/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +141,7 @@ export const useEventFlowStore = create<EventFlowState>((set) => ({
   deleteEventDay: async (id) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_URL}/schedule/delete-schedule/${id}`, {
+      const response = await fetch(`${API_URL}/api/schedule/delete-schedule/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -162,7 +163,7 @@ export const useEventFlowStore = create<EventFlowState>((set) => ({
   getEventDayById: async (id) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`${API_URL}/schedule/get-schedule/${id}`, {
+      const response = await fetch(`${API_URL}/api/schedule/get-schedule/${id}`, {
         method: 'GET',
         credentials: 'include',
       });

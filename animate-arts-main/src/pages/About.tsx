@@ -12,62 +12,72 @@ const About = () => {
   const tiltRefs = useRef<(HTMLDivElement | null)[]>([]);
   const { gallery, loading, fetchGalleryUser } = useGalleryStore();
 
- useEffect(() => {
-  if (!tiltRefs.current.length) return;
+  // Fetch gallery data on component mount
+  useEffect(() => {
+    fetchGalleryUser();
+  }, [fetchGalleryUser]);
 
-  const cleanups: (() => void)[] = [];
+  // Setup tilt effect whenever gallery changes
+  useEffect(() => {
+    if (!tiltRefs.current.length) return;
 
-  tiltRefs.current.forEach((ref) => {
-    if (!ref) return;
+    const cleanups: (() => void)[] = [];
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = ref.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    tiltRefs.current.forEach((ref) => {
+      if (!ref) return;
 
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+      const handleMouseMove = (e: MouseEvent) => {
+        const rect = ref.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-      const rotateX = ((y - centerY) / centerY) * -20;
-      const rotateY = ((x - centerX) / centerX) * 20;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-      gsap.to(ref, {
-        rotationX: rotateX,
-        rotationY: rotateY,
-        transformPerspective: 1000,
-        duration: 0.3,
-        ease: "power2.out",
+        const rotateX = ((y - centerY) / centerY) * -20;
+        const rotateY = ((x - centerX) / centerX) * 20;
+
+        gsap.to(ref, {
+          rotationX: rotateX,
+          rotationY: rotateY,
+          transformPerspective: 1000,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      };
+
+      const handleMouseLeave = () => {
+        gsap.to(ref, {
+          rotationX: 0,
+          rotationY: 0,
+          duration: 0.6,
+          ease: "power4.out",
+        });
+      };
+
+      ref.addEventListener("mousemove", handleMouseMove);
+      ref.addEventListener("mouseleave", handleMouseLeave);
+
+      cleanups.push(() => {
+        ref.removeEventListener("mousemove", handleMouseMove);
+        ref.removeEventListener("mouseleave", handleMouseLeave);
       });
-    };
-
-    const handleMouseLeave = () => {
-      gsap.to(ref, {
-        rotationX: 0,
-        rotationY: 0,
-        duration: 0.6,
-        ease: "power4.out",
-      });
-    };
-
-    ref.addEventListener("mousemove", handleMouseMove);
-    ref.addEventListener("mouseleave", handleMouseLeave);
-
-    cleanups.push(() => {
-      ref.removeEventListener("mousemove", handleMouseMove);
-      ref.removeEventListener("mouseleave", handleMouseLeave);
     });
-  });
 
-  const timeout = setTimeout(() => {
-    ScrollTrigger.refresh();
-  }, 500);
+    const timeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
 
-  return () => {
-    cleanups.forEach((cleanup) => cleanup());
-    clearTimeout(timeout);
-  };
-}, [gallery]); // important: re-run when gallery changes
+    return () => {
+      cleanups.forEach((cleanup) => cleanup());
+      clearTimeout(timeout);
+    };
+  }, [gallery]); // Add gallery as dependency
 
+  // Reset tiltRefs when gallery changes
+  useEffect(() => {
+    tiltRefs.current = tiltRefs.current.slice(0, gallery.length);
+  }, [gallery]);
 
   return (
     <div className="min-h-screen bg-gallery-bg pt-20 overflow-hidden">
@@ -193,7 +203,7 @@ const About = () => {
                   <div className="relative overflow-hidden bg-gallery-surface rounded-lg hover-lift">
                     <div className="aspect-square overflow-hidden">
                       <img
-                        src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${item.image}`}
+                        src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}/${item.image}`}
                         alt={item.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         loading="lazy"

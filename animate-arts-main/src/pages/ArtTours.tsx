@@ -14,7 +14,7 @@ interface TicketOption {
 }
 
 interface Tour {
-  id: string; 
+  id: number; 
   title: string;
   description: string;
   location: string;
@@ -135,7 +135,7 @@ const ArtTours = () => {
                         location: event.location,
                         date: event.date,
                         time: formatTime(event.time),
-                        image: `${import.meta.env.VITE_BACKEND_IMAGE_URL}${event.image}`,
+                        image: event.image,
                         tickets: {
                           general: { 
                             price: event.price, 

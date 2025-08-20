@@ -136,7 +136,7 @@ const formatPrice = (price: number): string => {
       {/* Tour Image */}
       <div className="relative h-48 bg-gradient-to-br from-zinc-800 to-zinc-900 overflow-hidden">
         <img
-          src={tour.image}
+          src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}/${tour.image}`}
           alt={tour.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"

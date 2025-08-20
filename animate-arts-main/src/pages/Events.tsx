@@ -148,7 +148,7 @@ export default function Events() {
             className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition"
           >
             <img
-              src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${event.image}`}
+              src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}/${event.image}`}
               alt={event.title}
               className="w-full h-48 object-cover"
             />
@@ -382,7 +382,7 @@ export default function Events() {
           title={selectedEvent.title}
         >
           <img
-            src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${selectedEvent.image}`}
+            src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}/${selectedEvent.image}`}
             alt={selectedEvent.title}
             className="w-full h-48 object-cover rounded-lg mb-3"
             onError={(e) => {

@@ -126,9 +126,24 @@ const Home = () => {
               <p className="text-gallery-muted">Loading events...</p>
             </div>
           ) : error ? (
-            <div className="text-center py-12">
-              <p className="text-red-500">Error loading events: {error}</p>
-            </div>
+           <motion.div
+              className="animate-on-scroll bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-lg"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+              variants={{
+                hidden: { opacity: 0, y: 40 },
+                visible: { opacity: 1, y: 5 },
+              }}
+            >
+              <h3 className="text-3xl font-semibold text-primary mb-4">
+                Events Coming Soon
+              </h3>
+              <p className="text-lg text-gallery-muted">
+                We're currently planning exciting events for you. Check back later for updates!
+              </p>
+            </motion.div>
           ) : eventDays.length === 0 ? (
             <motion.div
               className="animate-on-scroll bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-lg"

@@ -22,8 +22,8 @@ interface AuthState {
   logoutAdmin: () => Promise<{ success: boolean; message?: string }>;
 }
 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/';
-// const API_URL = '/api'; // ---- for production
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://api.experiencenigeriaart.com';
+// const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/';
 
 // Single store combining user context and auth state
 export const useAuthStore = create<AuthState>()(
@@ -44,7 +44,7 @@ export const useAuthStore = create<AuthState>()(
           // Strip confirmPassword before sending
           const { confirmPassword, ...payload } = newUser;
 
-          const res = await fetch(`${API_URL}/auth/signup`, {
+          const res = await fetch(`${API_URL}/api/auth/signup`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export const useAuthStore = create<AuthState>()(
       loginAdmin: async (credentials) => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}/auth/login`, {
+          const res = await fetch(`${API_URL}/api/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -80,7 +80,7 @@ export const useAuthStore = create<AuthState>()(
           });
 
           const data = await res.json();
-          console.log("Login response:", data); // Debug log
+          // console.log("Login response:", data); // Debug log
           if (res.ok) {
             set({
               user: { id: data._id, email: data.email, ...data },
@@ -106,7 +106,7 @@ export const useAuthStore = create<AuthState>()(
       getUser: async () => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}/auth/me`, {
+          const res = await fetch(`${API_URL}/api/auth/me`, {
             method: 'GET',
             credentials: 'include',
           });
@@ -140,7 +140,7 @@ export const useAuthStore = create<AuthState>()(
       logoutAdmin: async () => {
         set({ loading: true, error: null });
         try {
-          const res = await fetch(`${API_URL}/auth/logout`, {
+          const res = await fetch(`${API_URL}/api/auth/logout`, {
             method: 'POST',
             credentials: 'include',
           });

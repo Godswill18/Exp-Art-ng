@@ -148,7 +148,7 @@ export default function Gallery() {
               className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow"
             >
               <img
-                src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${item.image}`}
+                src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}/${item.image}`}
                 alt={item.title}
                 className="w-full h-48 object-cover"
               />
@@ -297,7 +297,7 @@ export default function Gallery() {
                 />
               ) : (
                 <img
-                  src={`http://localhost:5000/${selectedItem.image}`}
+                  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}/${selectedItem.image}`}
                   alt={selectedItem.title}
                   className="mt-2 w-full h-40 object-cover rounded border"
                 />
