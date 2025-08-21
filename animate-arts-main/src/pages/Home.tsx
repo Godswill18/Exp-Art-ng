@@ -32,14 +32,21 @@ const Home = () => {
   };
 
   // Format the event days data for display
-  const formattedEventDays = eventDays.map((day, index) => ({
-    title: `Day ${index + 1} – ${day.day}, ${day.date}`,
-    items: day.activities.split('\n').filter(item => item.trim() !== ''),
-    delay: 0.3 + (index * 0.2),
-    duration: 0.4 + (index * 0.2),
-    // Single event will span full width, multiple will be in grid
-    fullWidth: eventDays.length === 1
-  }));
+  const formattedEventDays = [...eventDays]
+    .sort((a, b) => {
+      // Assuming a.day = "Day 1", "Day 2", etc.
+      const numA = parseInt(a.day.replace(/\D/g, ""), 10);
+      const numB = parseInt(b.day.replace(/\D/g, ""), 10);
+      return numA - numB;
+    })
+    .map((day, index) => ({
+      title: `Day ${index + 1} – ${day.date}`,
+      items: day.activities.split("\n").filter((item) => item.trim() !== ""),
+      delay: 0.3 + index * 0.2,
+      duration: 0.4 + index * 0.2,
+      // Single event will span full width, multiple will be in grid
+      fullWidth: eventDays.length === 1,
+    }));
 
   return (
     <div className="min-h-screen bg-background">

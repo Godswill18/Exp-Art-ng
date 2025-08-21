@@ -14,6 +14,7 @@ const About = () => {
 
   // Fetch gallery data on component mount
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchGalleryUser();
   }, [fetchGalleryUser]);
 
@@ -75,9 +76,11 @@ const About = () => {
   }, [gallery]); // Add gallery as dependency
 
   // Reset tiltRefs when gallery changes
-  useEffect(() => {
-    tiltRefs.current = tiltRefs.current.slice(0, gallery.length);
-  }, [gallery]);
+ useEffect(() => {
+  if (!Array.isArray(gallery)) return;
+  tiltRefs.current = tiltRefs.current.slice(0, gallery.length);
+}, [gallery]);
+
 
   return (
     <div className="min-h-screen bg-gallery-bg pt-20 overflow-hidden">
@@ -165,7 +168,7 @@ const About = () => {
             <div className="text-center py-12">
               <p className="text-gallery-muted">Loading photos...</p>
             </div>
-          ) : gallery.length === 0 ? (
+          ) : gallery?.length === 0 ? (
             <motion.div 
               className="bg-white/10 backdrop-blur-sm rounded-xl p-12 text-center max-w-2xl mx-auto"
               initial="hidden"
@@ -194,7 +197,7 @@ const About = () => {
             </motion.div>
           ) : (
             <div className="gallery-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {gallery.map((item, index) => (
+              {gallery?.map((item, index) => (
                 <div
                   key={item._id}
                   ref={(el) => (tiltRefs.current[index] = el)}

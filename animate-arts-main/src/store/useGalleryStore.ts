@@ -43,7 +43,7 @@ export const useGalleryStore = create<GalleryState>((set) => ({
   fetchGalleryUser: async () => {
     set({ loading: true });
     try {
-      const res = await fetch(`${API_URL}/api/gallery/get-all-posts`, {
+      const res = await fetch(`${API_URL}/api/gallery/get-all-posts-user`, {
           method: "GET",
             credentials: "include",
       });
