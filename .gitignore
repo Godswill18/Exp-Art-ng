@@ -1,0 +1,12 @@
+# Dependencies / build output (each app also has its own .gitignore)
+node_modules
+dist
+coverage
+.vercel
+
+# Private environment files (keep .env.example)
+.env
+.env.*
+!.env.example
+
+.DS_Store

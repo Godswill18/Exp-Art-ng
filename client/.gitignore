@@ -1,0 +1,22 @@
+node_modules
+dist
+dist-ssr
+coverage
+.vercel
+*.local
+logs
+*.log
+npm-debug.log*
+
+# Private environment files (keep .env.example)
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.sw?
